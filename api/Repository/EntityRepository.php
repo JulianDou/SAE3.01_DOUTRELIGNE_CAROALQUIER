@@ -21,7 +21,7 @@ abstract class EntityRepository {
 
     protected function __construct(){
         // Modifiez ici vos informations de BDD et de connexion
-        $this->cnx = new PDO("mysql:host=127.0.0.1:8889;dbname=SAE301", "root", "root");
+        $this->cnx = new PDO("mysql:host=mmi.unilim.fr;dbname=caroalquier1", "caroalquier1", "caroalquier1");
     }
 
     /**
@@ -37,6 +37,9 @@ abstract class EntityRepository {
      *  Must return an array of Entity objects or false if the query fails
      */
     abstract public function findAll();
+
+
+
 
     /**
      *  save

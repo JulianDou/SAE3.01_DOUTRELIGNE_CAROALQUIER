@@ -1,0 +1,40 @@
+Récupérer tous les produits :
+
+https://mmi.unilim.fr/~caroalquier1/SAE301/api/products/
+
+
+Récupérer un produit avec un certain id :
+
+https://mmi.unilim.fr/~caroalquier1/SAE301/api/products/1
+
+Récupérer tous les produits d'une catégorie :
+
+https://mmi.unilim.fr/~caroalquier1/SAE301/api/products?category=1
+
+Format du produit:
+
+{
+"id":1,
+"name":"Manette Xbox",
+"category":1,"price":59.99,
+"description":"Une superbe manette","image":"https:\/\/img-prod-cms-rt-microsoft-com.akamaized.net\/cms\/api\/am\/imageFileData\/RE4FlSK?ver=3eb6",
+"revendeur":"Microsoft"
+}
+
+
+Récupérer toutes les catégories :
+
+https://mmi.unilim.fr/~caroalquier1/SAE301/api/categories
+
+Récupérer une catégorie : 
+
+https://mmi.unilim.fr/~caroalquier1/SAE301/api/categories/
+
+Format de la catégorie:
+
+{
+"id":1,
+"name":"Manettes",
+"icone":"",
+"image":""
+}
