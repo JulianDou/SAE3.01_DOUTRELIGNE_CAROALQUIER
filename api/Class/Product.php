@@ -79,7 +79,7 @@ class Product implements JsonSerializable {
     }
 
     /**
-     * Set the value of idcategory
+     * Set the value of idcategory là
      *
      * @return  self
      */ 
