@@ -5,7 +5,7 @@ let navMobileView = {
 
     render: function(){
         document.querySelector("header").innerHTML = template;
-    }
+    },
 
 }
 

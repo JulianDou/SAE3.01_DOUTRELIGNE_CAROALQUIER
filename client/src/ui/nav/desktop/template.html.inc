@@ -1,4 +1,4 @@
-<nav class="fixed w-full flex h-14 justify-center items-center shrink-0 bg-zing-green top-0">
+<nav id="navbar" class="fixed w-full flex h-14 justify-center items-center shrink-0 bg-zing-green top-0">
     <!-- Padding bleu -->
     <div class="w-full h-full bg-micromania-blue"></div>
     <!-- Logo -->

@@ -1,10 +1,10 @@
-import { genericRenderer } from "../../../lib/utils.js"; 
+import { genericRenderer } from "../../../../lib/utils.js"; 
 
-const templateFile = await fetch("src/ui/nav/category/template.html.inc");
+const templateFile = await fetch("src/ui/nav/desktop/category/template.html.inc");
 const template = await templateFile.text();
 
 
-let CategoryView = {
+let DesktopCategoryView = {
 
     render: function(data){
         let html = "";
@@ -16,4 +16,4 @@ let CategoryView = {
 
 }
 
-export {CategoryView};
+export {DesktopCategoryView};

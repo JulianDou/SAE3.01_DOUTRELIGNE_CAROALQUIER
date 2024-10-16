@@ -6,7 +6,7 @@ let navDesktopView = {
 
     render: function(){
         document.querySelector("header").innerHTML = template;
-    }
+    },
 
 }
 
