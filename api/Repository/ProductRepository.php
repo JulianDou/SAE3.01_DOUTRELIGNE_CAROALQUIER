@@ -70,7 +70,7 @@ class ProductRepository extends EntityRepository {
 
     public function findAllByCategory($id): array {
         
-        $requete = $this->cnx->prepare("select * from Produits where id_categories=:value");
+        $requete = $this->cnx->prepare("select * from Options where id_categories=:value");
         $requete->bindParam(':value', $id); // fait le lien entre le "tag" :value et la valeur de $id
         $requete->execute(); // execute la requête
         $answer = $requete->fetchAll(PDO::FETCH_OBJ);

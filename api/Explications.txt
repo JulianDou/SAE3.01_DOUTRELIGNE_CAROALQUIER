@@ -38,3 +38,48 @@ Format de la catégorie:
 "icone":"",
 "image":""
 }
+
+
+---------------
+
+V2 avec approche par options
+
+Format du retour :
+
+{
+"id_product":1,
+"id_options: 2,
+"name":"Manette Xbox",
+"category":1,"price":59.99,
+"description":"Une superbe manette","image":"https:\/\/img-prod-cms-rt-microsoft-com.akamaized.net\/cms\/api\/am\/imageFileData\/RE4FlSK?ver=3eb6",
+"revendeur":"Microsoft"
+}
+
+Récupérer toutes les options d'un produit :
+
+{
+    "id_product":1
+    "options": [
+        {
+            "id_options: 1,
+            "name":"Manette Xbox",
+            "category":1,
+            "price":59.99,
+            "description":"Une superbe manette",
+            "image":"https:\/\/img-prod-cms-rt-microsoft-com.akamaized.net\/cms\/api\/am\/imageFileData\/RE4FlSK?ver=3eb6",
+            "revendeur":"Microsoft"
+        },
+        {
+            "id_options: 2,
+            "name":"Manette Xbox Bleu",
+            "category":1,
+            "price":69.99,
+            "description":"Une superbe manette",
+            "image":"https:\/\/img-prod-cms-rt-microsoft-com.akamaized.net\/cms\/api\/am\/imageFileData\/RE4FlSK?ver=3eb6",
+            "revendeur":"Microsoft"
+        }
+    ]
+}
+
+
+Si la description de l'option est nulle, on prend celle du product parent.
