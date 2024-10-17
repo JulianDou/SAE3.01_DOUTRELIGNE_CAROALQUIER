@@ -6,17 +6,14 @@ let CategoryData = {};
 let fakeCategories = [
     {
         id: 1,
-        icon: "../src/assets/games.svg",
         name: "Jeux Vidéos",
     },
     {
         id: 2,
-        icon: "../src/assets/controller.svg",
         name: "Manettes",
     },
     {
         id: 3,
-        icon: "../src/assets/goodies.svg",
         name: "Produits Dérivés",
     }
 ]
@@ -27,7 +24,7 @@ CategoryData.fetch = async function(id){
 }
 
 CategoryData.fetchAll = async function(){
-    let data = await getRequest('category');
+    let data = await getRequest('categories');
     return data==false ? fakeCategories : data;
 }
 

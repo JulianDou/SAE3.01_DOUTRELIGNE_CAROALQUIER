@@ -6,43 +6,17 @@ let ProductData = {};
 let fakeProducts = [
     {
         id: 1,
-        name: "Marteau",
+        name: "Example Product",
+        retailer: "Example Retailer",
+        img: "controllertest.jpg",
+        price: "99.99"
     },
     {
         id: 2,
-        name: "Tournevis",
-    },
-    {
-        id: 3,
-        name: "Clé à molette",
-    },
-    {
-        id: 4,
-        name: "Pince",
-    },
-    {
-        id: 5,
-        name: "Scie",
-    },
-    {
-        id: 6,
-        name: "Perceuse",
-    },
-    {
-        id: 7,
-        name: "Ponceuse",
-    },
-    {
-        id: 8,
-        name: "Mètre",
-    },
-    {
-        id: 9,
-        name: "Niveau à bulle",
-    },
-    {
-        id: 10,
-        name: "Cutter",
+        name: "Example Product 2",
+        retailer: "Example Retailer 2",
+        img: "controllertest.jpg",
+        price: "999.99"
     }
 ]
 
