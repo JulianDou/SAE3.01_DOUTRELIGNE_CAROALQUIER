@@ -1,4 +1,4 @@
-<div id="product-card" dataset-product_id="{{id}}" class="flex flex-col p-5 gap-5 bg-white w-60 flex-grow-0 shadow-xl hover:cursor-pointer hover:scale-110">
+<div id="product-card" dataset-product_id="{{id}}" class="flex flex-col p-5 gap-5 bg-white w-60 flex-grow-0 shadow-xl transition-all hover:cursor-pointer hover:transition-all hover:border-micromania-blue border-4">
     <div class="h-44 flex justify-center items-center">
         <img id="product-img" src="./src/assets/{{image}}" alt="{{name}}" class="object-contain">
     </div>

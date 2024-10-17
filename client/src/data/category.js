@@ -24,7 +24,7 @@ CategoryData.fetch = async function(id){
 }
 
 CategoryData.fetchAll = async function(){
-    let data = await getRequest('category');
+    let data = await getRequest('categories');
     return data==false ? fakeCategories : data;
 }
 

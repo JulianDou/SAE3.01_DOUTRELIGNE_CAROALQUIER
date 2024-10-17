@@ -1,5 +1,5 @@
 <!-- Menu déroulant -->
-<ul id="nav-categories" class="absolute flex flex-col bg-zing-green bottom-0 left-0 transition-all w-screen transform translate">
+<ul id="nav-categories" class="absolute z-10 flex flex-col bg-zing-green bottom-0 left-0 transition-all w-screen transform translate">
     <!-- Contenu dynamique -->
 </ul>
 <div class="z-20 relative w-full flex h-14 justify-center items-center shrink-0 bg-zing-green ">
@@ -7,8 +7,8 @@
     <!-- Padding bleu -->
     <div class="w-full h-full bg-micromania-blue"></div>
     <!-- Burger -->
-    <div id="nav-burger" class="flex items-center px-2 h-full bg-micromania-blue hover:cursor-pointer">
-        <svg id="nav-burger" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div class="relative flex items-center px-2 h-full bg-micromania-blue hover:cursor-pointer">
+        <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_96_2894)">
                 <path d="M0.1745 1.71429C0.1745 1.25963 0.332535 0.823594 0.61384 0.502103C0.895144 0.180612 1.27667 0 1.6745 0H22.6745C23.0723 0 23.4539 0.180612 23.7352 0.502103C24.0165 0.823594 24.1745 1.25963 24.1745 1.71429C24.1745 2.16894 24.0165 2.60498 23.7352 2.92647C23.4539 3.24796 23.0723 3.42857 22.6745 3.42857H1.6745C1.27667 3.42857 0.895144 3.24796 0.61384 2.92647C0.332535 2.60498 0.1745 2.16894 0.1745 1.71429ZM0.1745 12C0.1745 11.5453 0.332535 11.1093 0.61384 10.7878C0.895144 10.4663 1.27667 10.2857 1.6745 10.2857H22.6745C23.0723 10.2857 23.4539 10.4663 23.7352 10.7878C24.0165 11.1093 24.1745 11.5453 24.1745 12C24.1745 12.4547 24.0165 12.8907 23.7352 13.2122C23.4539 13.5337 23.0723 13.7143 22.6745 13.7143H1.6745C1.27667 13.7143 0.895144 13.5337 0.61384 13.2122C0.332535 12.8907 0.1745 12.4547 0.1745 12ZM1.6745 20.5714C1.27667 20.5714 0.895144 20.752 0.61384 21.0735C0.332535 21.395 0.1745 21.8311 0.1745 22.2857C0.1745 22.7404 0.332535 23.1764 0.61384 23.4979C0.895144 23.8194 1.27667 24 1.6745 24H22.6745C23.0723 24 23.4539 23.8194 23.7352 23.4979C24.0165 23.1764 24.1745 22.7404 24.1745 22.2857C24.1745 21.8311 24.0165 21.395 23.7352 21.0735C23.4539 20.752 23.0723 20.5714 22.6745 20.5714H1.6745Z" fill="white"/>
             </g>
@@ -18,6 +18,7 @@
                 </clipPath>
             </defs>
         </svg>
+        <div id="nav-burger" class="absolute w-full h-full top-0 left-0"></div>
     </div>
     <!-- Logo -->
     <div id="nav-logo" class="p-5 relative h-full flex items-center hover:cursor-pointer">

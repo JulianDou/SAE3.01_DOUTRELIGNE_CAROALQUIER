@@ -7,12 +7,17 @@ import { MobileCategoryView } from "./ui/nav/mobile/category/index.js";
 import { navDesktopView } from "./ui/nav/desktop/index.js";
 import { navMobileView } from "./ui/nav/mobile/index.js";
 
+// imports pour les catégories
+import { CategoriesView} from "./ui/categories/index.js";
+
 // imports pour les produits en vogue
 import { PromotedView } from "./ui/promoted/index.js";
 
 let V = {}
 
 V.init = async function(){
+
+
 
     // ----- Affichage Nav -----
 
@@ -31,21 +36,31 @@ V.init = async function(){
     }
     document.querySelector("#nav-categories").innerHTML = htmlnav;
     
-    // ajout d'un event listener pour les clics sur la nav
-    let navbar = document.querySelector("#navbar");
-    navbar.addEventListener("click", C.handler_clickOnNavbar);
+    // ajout d'un event listener pour les clics
+    let body = document.querySelector("body");
+    body.addEventListener("click", C.handler_clickOnPage);
 
     // ----------
 
+    V.renderHomepage();
+
+}
+
+V.renderHomepage = async function(){
+    // On vide la section main puisque les composants ne le font pas
+
+    document.querySelector("#main").innerHTML = "";
+    let data = undefined;
+
+    // ----- Affichage Catégories -----
+
+    data = await CategoryData.fetchAll();
+    CategoriesView.render("#main", data);
+
     // ----- Affichage Produits en vogue -----
 
-    // on va chercher tous les produits pour l'instant, on verra plus
-    // tard pour ceux mis en avant
-    data = await ProductData.fetchAll();
+    data = await ProductData.fetchAll(); // remplacer le fetchAll par le bon code quand on sera la bonne itération
     PromotedView.render("#main", data);
-
-
-
 
 }
 
@@ -55,24 +70,31 @@ C.init = async function(){
     V.init();
 }
 
-C.handler_clickOnNavbar = function(ev){
+C.handler_clickOnPage = function(ev){
     let nav_dropdown = document.querySelector("#nav-categories");
-    let element_id = undefined;
-    if (ev.target.id=="nav-burger"){
-        // Clic sur le burger - seulement sur mobile
-        nav_dropdown.classList.toggle("translate-y-full");
-    }
-    else {
-        element_id = ev.target.id;
-        // On vérifie si l'élément cliqué a une id (sinon c'est qu'il n'est pas censé être cliquable)
-        if (element_id!="" && element_id!=undefined){
-            // Clic sur le logo
-            if (element_id=="nav-logo"){
-                
-            }
-            else {
+    let element_id = ev.target.id;
+
+    // On vérifie si l'élément cliqué a une id (sinon c'est qu'il n'est pas censé être cliquable)
+    if (element_id!="" && element_id!=undefined){
+        switch (element_id) {
+
+            case "nav-burger":
+                // Clic sur le burger - seulement sur mobile
+                nav_dropdown.classList.toggle("translate-y-full");
+                break;
+
+            case "nav-logo":
+                // Clic sur le logo
+                // On "revient" sur l'accueil
+                console.log("Clic sur le logo");
+
+                break;
+
+            case "nav-category":
                 // Clic sur une catégorie
-            }
+                console.log("Clic sur une catégorie :", ev.target.dataset.categoryid);
+                break;
+            
         }
     }
 }
