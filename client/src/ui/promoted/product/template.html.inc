@@ -1,4 +1,4 @@
-<div dataset-product_id="{{id}}" class="flex flex-col p-5 gap-5 bg-white w-60 flex-grow-0">
+<div id="product-card" dataset-product_id="{{id}}" class="flex flex-col p-5 gap-5 bg-white w-60 flex-grow-0 shadow-xl">
     <div class="bg-[url('/client/src/assets/{{img}}')] h-44 bg-center bg-cover"></div>
     <div class="flex flex-col gap-2">
         <div class="flex flex-col gap-2">
