@@ -76,6 +76,7 @@ class ProductRepository extends EntityRepository {
                 $optionProduct->setPrice($option->prix);
                 $optionProduct->setDescription($option->description ?? $obj->description); // Use parent description if null
                 $optionProduct->setImage($option->image);
+                $optionProduct->setRevendeur($option->revendeur);
                 array_push($optionsArray, $optionProduct);
             }
 

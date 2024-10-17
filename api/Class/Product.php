@@ -82,7 +82,7 @@ public function JsonSerialize(): mixed {
         "price" => $this->prix ?? null,
         "description" => $this->description ?? null,
         "image" => $this->image ?? null,
-        "revendeur" => $this->revendeur ?? null,
+        "retailer" => $this->revendeur ?? null,
         "options" => $this->options ?? null
     ];
 
