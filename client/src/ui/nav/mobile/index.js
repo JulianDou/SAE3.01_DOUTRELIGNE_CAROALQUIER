@@ -4,7 +4,7 @@ const template = await templateFile.text();
 let navMobileView = {
 
     render: function(){
-        document.querySelector("header").innerHTML = template;
+        document.querySelector("#navbar").innerHTML = template;
     },
 
 }
