@@ -12,7 +12,7 @@ let PromotedView = {
         let products = "";
 
         // on appelle la fonction render propre aux cartes, pour chaque carte
-        for (let product of data){
+        for (let product of data[0].options){
             products += PromotedProductView.render(product);
         }
 
