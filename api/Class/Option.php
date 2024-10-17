@@ -8,7 +8,7 @@
  *  qui oblige à définir une méthode jsonSerialize. Cette méthode permet de dire comment les objets
  *  de la classe Product doivent être converti en JSON. Voire la méthode pour plus de détails.
  */
-class Product implements JsonSerializable {
+class Option implements JsonSerializable {
     private int $id_produits; // id du produit
     private string $nom; // nom du produit
     private int $id_categories; // id de la catégorie du produit

@@ -1,14 +1,14 @@
 <?php
 
 require_once("Repository/EntityRepository.php");
-require_once("Class/Product.php");
+require_once("Class/Option.php");
 
 
 /**
- *  Classe ProductRepository
+ *  Classe OptionRepository
  * 
- *  Cette classe représente le "stock" de Product.
- *  Toutes les opérations sur les Product doivent se faire via cette classe 
+ *  Cette classe représente le "stock" de Option.
+ *  Toutes les opérations sur les Option doivent se faire via cette classe 
  *  qui tient "synchro" la bdd en conséquence.
  * 
  *  La classe hérite de EntityRepository ce qui oblige à définir les méthodes  (find, findAll ... )
@@ -16,14 +16,14 @@ require_once("Class/Product.php");
  *  c'est utile !
  *  
  */
-class ProductRepository extends EntityRepository {
+class OptionRepository extends EntityRepository {
 
     public function __construct(){
         // appel au constructeur de la classe mère (va ouvrir la connexion à la bdd)
         parent::__construct();
     }
 
-    public function find($id): ?Product{
+    public function find($id_produits): ?Option{
         $requete = $this->cnx->prepare("select * from Produits where id_produits=:value");
         $requete->bindParam(':value', $id);
         $requete->execute();
@@ -31,7 +31,7 @@ class ProductRepository extends EntityRepository {
         
         if ($answer == false) return null;
         
-        $p = new Product($answer->id_produits);
+        $p = new Option($answer->id_produits);
         $p->setName($answer->nom);
         $p->setDescription($answer->description);
         $p->setImage($answer->image);
@@ -44,7 +44,7 @@ class ProductRepository extends EntityRepository {
         $option = $requeteOptions->fetch(PDO::FETCH_OBJ);
 
         if ($option) {
-            $p->setPrice($option->prix); // Assuming you have a setPrice method in Product class
+            $p->setPrice($option->prix); // Assuming you have a setPrice method in Option class
         }
 
         return $p;
@@ -58,7 +58,7 @@ class ProductRepository extends EntityRepository {
 
         $res = [];
         foreach($answer as $obj){
-            $p = new Product($obj->id_produits);
+            $p = new Option($obj->id_produits);
             $p->setName($obj->nom);
             $p->setDescription($obj->description);
             $p->setRevendeur($obj->revendeur);
@@ -70,8 +70,8 @@ class ProductRepository extends EntityRepository {
             $option = $requeteOptions->fetch(PDO::FETCH_OBJ);
 
             if ($option) {
-                $p->setPrice($option->prix); // Assuming you have a setPrice method in Product class
-                $p->setImage($option->image); // Assuming you have a setImage method in Product class
+                $p->setPrice($option->prix); // Assuming you have a setPrice method in Option class
+                $p->setImage($option->image); // Assuming you have a setImage method in Option class
 
             }
 
@@ -89,7 +89,7 @@ class ProductRepository extends EntityRepository {
 
         $res = [];
         foreach($answer as $obj){
-            $p = new Product($obj->id_produits);
+            $p = new Option($obj->id_produits);
             $p->setName($obj->nom);
             $p->setDescription($obj->description);
             $p->setRevendeur($obj->revendeur);
@@ -101,8 +101,8 @@ class ProductRepository extends EntityRepository {
             $option = $requeteOptions->fetch(PDO::FETCH_OBJ);
 
             if ($option) {
-                $p->setPrice($option->prix); // Assuming you have a setPrice method in Product class
-                $p->setImage($option->image); // Assuming you have a setImage method in Product class
+                $p->setPrice($option->prix); // Assuming you have a setPrice method in Option class
+                $p->setImage($option->image); // Assuming you have a setImage method in Option class
             }
 
             array_push($res, $p);

@@ -1,0 +1,80 @@
+CREATE TABLE Clients (
+   id_clients INT AUTO_INCREMENT,
+   email VARCHAR(255) NOT NULL,
+   mot_de_passe VARCHAR(255) NOT NULL,
+   nom VARCHAR(255) NOT NULL,
+   PRIMARY KEY(id_clients)
+);
+
+CREATE TABLE Admins (
+   id_admins INT AUTO_INCREMENT,
+   nom VARCHAR(255) NOT NULL,
+   email VARCHAR(255) NOT NULL,
+   mot_de_passe VARCHAR(255) NOT NULL,
+   PRIMARY KEY(id_admins)
+);
+
+CREATE TABLE Commandes (
+   id_commandes INT AUTO_INCREMENT,
+   statut VARCHAR(255) NOT NULL,
+   montant_total DECIMAL(11,2) NOT NULL,
+   date_commande DATETIME NOT NULL,
+   id_clients INT NOT NULL,
+   PRIMARY KEY(id_commandes),
+   FOREIGN KEY(id_clients) REFERENCES Clients(id_clients)
+      ON DELETE CASCADE
+);
+
+CREATE TABLE Categories (
+   id_categories INT AUTO_INCREMENT,
+   nom_categories VARCHAR(255) NOT NULL,
+   PRIMARY KEY(id_categories)
+);
+
+CREATE TABLE Produits (
+   id_produits INT AUTO_INCREMENT,
+   nom VARCHAR(255) NOT NULL,
+   prix DECIMAL(10,2) NOT NULL,
+   description TEXT,
+   image VARCHAR(255),
+   revendeur VARCHAR(255),
+   id_categories INT,
+   PRIMARY KEY(id_produits),
+   FOREIGN KEY(id_categories) REFERENCES Categories(id_categories)
+      ON DELETE SET NULL
+);
+
+CREATE TABLE Options (
+   id_options INT AUTO_INCREMENT,
+   prix DECIMAL(10,2) NOT NULL,
+   nom VARCHAR(255) NOT NULL,
+   image VARCHAR(255),
+   stock INT NOT NULL,
+   nom_court VARCHAR(30),
+   id_produits INT NOT NULL,
+   PRIMARY KEY(id_options),
+   FOREIGN KEY(id_produits) REFERENCES Produits(id_produits)
+      ON DELETE CASCADE
+);
+
+CREATE TABLE Commandes_Produits (
+   id_produits INT NOT NULL,
+   id_commandes INT NOT NULL,
+   quantite SMALLINT NOT NULL,
+   PRIMARY KEY(id_produits, id_commandes),
+   FOREIGN KEY(id_produits) REFERENCES Produits(id_produits)
+      ON DELETE CASCADE,
+   FOREIGN KEY(id_commandes) REFERENCES Commandes(id_commandes)
+      ON DELETE CASCADE
+);
+
+CREATE TABLE Clients_Produits (
+   id_clients INT NOT NULL,
+   id_produits INT NOT NULL,
+   quantite SMALLINT NOT NULL,
+   PRIMARY KEY(id_clients, id_produits),
+   FOREIGN KEY(id_clients) REFERENCES Clients(id_clients)
+      ON DELETE CASCADE,
+   FOREIGN KEY(id_produits) REFERENCES Produits(id_produits)
+      ON DELETE CASCADE
+);
