@@ -21,7 +21,6 @@ class Product implements JsonSerializable {
 
     public function __construct(int $id_produits){
         $this->id_produits = $id_produits;
-        
     }
 
      /**
@@ -82,8 +81,7 @@ public function JsonSerialize(): mixed {
         "price" => $this->prix ?? null,
         "description" => $this->description ?? null,
         "image" => $this->image ?? null,
-        "retailer" => $this->revendeur ?? null,
-        "options" => $this->options ?? null
+        "retailer" => $this->revendeur ?? null
     ];
 
     // Remove fields with null values
@@ -239,27 +237,4 @@ public function JsonSerialize(): mixed {
         return $this;
     }
     
-    private array $options = [];
-
-    /**
-     * Set the options for the product
-     *
-     * @param array $options
-     * @return self
-     */
-    public function setOptions(array $options): self
-    {
-        $this->options = $options;
-        return $this;
-    }
-
-    /**
-     * Get the options for the product
-     *
-     * @return array
-     */
-    public function getOptions(): array
-    {
-        return $this->options;
-    }
 }

@@ -32,27 +32,24 @@ class ProductRepository extends EntityRepository {
         if ($answer == false) return null;
         
         $p = new Product($answer->id_produits);
+        $p->setName($answer->nom);
+        $p->setDescription($answer->description);
+        $p->setImage($answer->image);
+        $p->setRevendeur($answer->revendeur);
 
         // Fetch options for the product
-        $requeteOptions = $this->cnx->prepare("select * from Options where id_produits=:value");
+        $requeteOptions = $this->cnx->prepare("select * from Produits_Options where id_produits=:value limit 1");
         $requeteOptions->bindParam(':value', $id);
         $requeteOptions->execute();
-        $options = $requeteOptions->fetchAll(PDO::FETCH_OBJ);
+        $option = $requeteOptions->fetch(PDO::FETCH_OBJ);
 
-        $optionsArray = [];
-        foreach ($options as $option) {
-            $optionProduct = new Product($option->id_options);
-            $optionProduct->setName($option->nom);
-            $optionProduct->setPrice($option->prix);
-            $optionProduct->setDescription($option->description ?? $answer->description); // Use parent description if null
-            $optionProduct->setImage($option->image);
-            array_push($optionsArray, $optionProduct);
+        if ($option) {
+            $p->setPrice($option->prix); // Assuming you have a setPrice method in Product class
         }
-
-        $p->setOptions($optionsArray); // Assuming you have a setOptions method in Product class
 
         return $p;
     }
+
 
     public function findAll(): array {
         $requete = $this->cnx->prepare("select * from Produits");
@@ -62,25 +59,21 @@ class ProductRepository extends EntityRepository {
         $res = [];
         foreach($answer as $obj){
             $p = new Product($obj->id_produits);
+            $p->setName($obj->nom);
+            $p->setDescription($obj->description);
+            $p->setRevendeur($obj->revendeur);
 
             // Fetch options for the product
-            $requeteOptions = $this->cnx->prepare("select * from Options where id_produits=:value");
+            $requeteOptions = $this->cnx->prepare("select * from Produits_Options where id_produits=:value limit 1");
             $requeteOptions->bindParam(':value', $obj->id_produits);
             $requeteOptions->execute();
-            $options = $requeteOptions->fetchAll(PDO::FETCH_OBJ);
+            $option = $requeteOptions->fetch(PDO::FETCH_OBJ);
 
-            $optionsArray = [];
-            foreach ($options as $option) {
-                $optionProduct = new Product($option->id_options);
-                $optionProduct->setName($option->nom);
-                $optionProduct->setPrice($option->prix);
-                $optionProduct->setDescription($option->description ?? $obj->description); // Use parent description if null
-                $optionProduct->setImage($option->image);
-                $optionProduct->setRevendeur($option->revendeur);
-                array_push($optionsArray, $optionProduct);
+            if ($option) {
+                $p->setPrice($option->prix); // Assuming you have a setPrice method in Product class
+                $p->setImage($option->image); // Assuming you have a setImage method in Product class
+
             }
-
-            $p->setOptions($optionsArray); // Assuming you have a setOptions method in Product class
 
             array_push($res, $p);
         }
@@ -89,24 +82,30 @@ class ProductRepository extends EntityRepository {
     }
 
     public function findAllByCategory($id): array {
-        
         $requete = $this->cnx->prepare("select * from Produits where id_categories=:value");
-        $requete->bindParam(':value', $id); // fait le lien entre le "tag" :value et la valeur de $id
-        $requete->execute(); // execute la requête
+        $requete->bindParam(':value', $id);
+        $requete->execute();
         $answer = $requete->fetchAll(PDO::FETCH_OBJ);
 
         $res = [];
-        if ($answer) {
-            foreach($answer as $obj){
-                $p = new Product($obj->id_produits);
-                $p->setName($obj->nom);
-                $p->setIdcategory($obj->id_categories);
-                $p->setPrice($obj->prix);
-                $p->setDescription($obj->description);
-                $p->setImage($obj->image);
-                $p->setRevendeur($obj->revendeur);
-                array_push($res, $p);
+        foreach($answer as $obj){
+            $p = new Product($obj->id_produits);
+            $p->setName($obj->nom);
+            $p->setDescription($obj->description);
+            $p->setRevendeur($obj->revendeur);
+
+            // Fetch options for the product
+            $requeteOptions = $this->cnx->prepare("select * from Produits_Options where id_produits=:value limit 1");
+            $requeteOptions->bindParam(':value', $obj->id_produits);
+            $requeteOptions->execute();
+            $option = $requeteOptions->fetch(PDO::FETCH_OBJ);
+
+            if ($option) {
+                $p->setPrice($option->prix); // Assuming you have a setPrice method in Product class
+                $p->setImage($option->image); // Assuming you have a setImage method in Product class
             }
+
+            array_push($res, $p);
         }
        
         return $res;

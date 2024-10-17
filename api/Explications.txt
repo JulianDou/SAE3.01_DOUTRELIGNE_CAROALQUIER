@@ -103,3 +103,16 @@ format :
     "password": "micromania2024"
   }
 ]
+
+
+But de renvoi du produit :
+
+{
+  "id_options": 4,
+  "name":"Manette Xbox Bleu",
+  "category":1,
+  "price":69.99,
+  "description":"Une superbe manette",
+  "image":"https:\/\/img-prod-cms-rt-microsoft-com.akamaized.net\/cms\/api\/am\/imageFileData\/RE4FlSK?ver=3eb6",
+  "revendeur":"Microsoft"
+}
