@@ -5,7 +5,7 @@ const template = await templateFile.text();
 let navDesktopView = {
 
     render: function(){
-        document.querySelector("header").innerHTML = template;
+        document.querySelector("#navbar").innerHTML = template;
     },
 
 }

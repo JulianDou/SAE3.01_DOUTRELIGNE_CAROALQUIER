@@ -1,4 +1,3 @@
-<li id="nav-category" class="flex flex-grow items-center px-5 h-full gap-2">
-    <img src="{{icon}}">
-    <p class="text-white text-nowrap">{{name}}</p>
+<li id="{{id}}" class="flex flex-grow items-center h-full px-4 gap-2 hover:cursor-pointer text-white whitespace-nowrap text-nowrap">
+    {{name}}
 </li>
