@@ -13,7 +13,7 @@ V.init = async function(){
 
     let html = "";
     let data = await CategoryData.fetchAll();
-    if (vw>1024){
+    if (vw>700){
         navDesktopView.render();
         html = DesktopCategoryView.render(data);
     } else {        
