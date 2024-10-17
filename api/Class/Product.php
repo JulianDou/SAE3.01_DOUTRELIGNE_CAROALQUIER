@@ -16,6 +16,8 @@ class Product implements JsonSerializable {
     private string $description; // description du produit
     private string $image; // image du produit
     private string $revendeur; // revendeur du produit
+    private int $id_options; // id de l'option du produit
+
 
     public function __construct(int $id_produits){
         $this->id_produits = $id_produits;
@@ -44,17 +46,51 @@ class Product implements JsonSerializable {
      *  Voir aussi : https://www.php.net/manual/en/class.jsonserializable.php
      *  
      */
-    public function JsonSerialize(): mixed {
-        return [
-            "id" => $this->id_produits,
-            "name" => $this->nom,
-            "category" => $this->id_categories,
-            "price" => $this->prix ?? null,
-            "description" => $this->description ?? null,
-            "image" => $this->image ?? null,
-            "revendeur" => $this->revendeur ?? null
-        ];
-    }
+
+
+//      Format visé pour la récupération  :
+
+// {
+//     "id_product":1
+//     "options": [
+//         {
+//             "id_options: 3,
+//             "name":"Manette Xbox",
+//             "category":1,
+//             "price":59.99,
+//             "description":"Une superbe manette",
+//             "image":"https:\/\/img-prod-cms-rt-microsoft-com.akamaized.net\/cms\/api\/am\/imageFileData\/RE4FlSK?ver=3eb6",
+//             "revendeur":"Microsoft"
+//         },
+//         {
+//             "id_options: 4,
+//             "name":"Manette Xbox Bleu",
+//             "category":1,
+//             "price":69.99,
+//             "description":"Une superbe manette",
+//             "image":"https:\/\/img-prod-cms-rt-microsoft-com.akamaized.net\/cms\/api\/am\/imageFileData\/RE4FlSK?ver=3eb6",
+//             "revendeur":"Microsoft"
+//         }
+//     ]
+// }
+
+public function JsonSerialize(): mixed {
+    $json = [
+        "id" => $this->id_produits,
+        "name" => $this->nom ?? null,
+        "category" => $this->id_categories ?? null,
+        "price" => $this->prix ?? null,
+        "description" => $this->description ?? null,
+        "image" => $this->image ?? null,
+        "revendeur" => $this->revendeur ?? null,
+        "options" => $this->options ?? null
+    ];
+
+    // Remove fields with null values
+    return array_filter($json, function($value) {
+        return !is_null($value);
+    });
+}
 
     /**
      * Get the value of id
@@ -63,7 +99,14 @@ class Product implements JsonSerializable {
     {
         return $this->id_produits;
     }
-   
+
+    /**
+     * get the value of id for option
+     */
+    public function getIdOption(): int
+    {
+        return $this->id_options;
+    }
 
     /**
      * Get the value of prix
@@ -194,5 +237,29 @@ class Product implements JsonSerializable {
     {
         $this->id_produits = $id;
         return $this;
+    }
+    
+    private array $options = [];
+
+    /**
+     * Set the options for the product
+     *
+     * @param array $options
+     * @return self
+     */
+    public function setOptions(array $options): self
+    {
+        $this->options = $options;
+        return $this;
+    }
+
+    /**
+     * Get the options for the product
+     *
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }

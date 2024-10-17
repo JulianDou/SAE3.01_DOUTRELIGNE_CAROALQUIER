@@ -24,27 +24,33 @@ class ProductRepository extends EntityRepository {
     }
 
     public function find($id): ?Product{
-        /*
-            La façon de faire une requête SQL ci-dessous est "meilleur" que celle vue
-            au précédent semestre (cnx->query). Notamment l'utilisation de bindParam
-            permet de vérifier que la valeur transmise est "safe" et de se prémunir
-            d'injection SQL.
-        */
-        $requete = $this->cnx->prepare("select * from Produits where id_produits=:value"); // prepare la requête SQL
-        $requete->bindParam(':value', $id); // fait le lien entre le "tag" :value et la valeur de $id
-        $requete->execute(); // execute la requête
+        $requete = $this->cnx->prepare("select * from Produits where id_produits=:value");
+        $requete->bindParam(':value', $id);
+        $requete->execute();
         $answer = $requete->fetch(PDO::FETCH_OBJ);
         
-        if ($answer==false) return null; // may be false if the sql request failed (wrong $id value for example)
+        if ($answer == false) return null;
         
         $p = new Product($answer->id_produits);
-        $p->setName($answer->nom);
-        $p->setIdcategory($answer->id_categories);
-        $p->setPrice($answer->prix);
-        $p->setDescription($answer->description);
-        $p->setImage($answer->image);
-        $p->setRevendeur($answer->revendeur);
-        
+
+        // Fetch options for the product
+        $requeteOptions = $this->cnx->prepare("select * from Options where id_produits=:value");
+        $requeteOptions->bindParam(':value', $id);
+        $requeteOptions->execute();
+        $options = $requeteOptions->fetchAll(PDO::FETCH_OBJ);
+
+        $optionsArray = [];
+        foreach ($options as $option) {
+            $optionProduct = new Product($option->id_options);
+            $optionProduct->setName($option->nom);
+            $optionProduct->setPrice($option->prix);
+            $optionProduct->setDescription($option->description ?? $answer->description); // Use parent description if null
+            $optionProduct->setImage($option->image);
+            array_push($optionsArray, $optionProduct);
+        }
+
+        $p->setOptions($optionsArray); // Assuming you have a setOptions method in Product class
+
         return $p;
     }
 
@@ -56,12 +62,25 @@ class ProductRepository extends EntityRepository {
         $res = [];
         foreach($answer as $obj){
             $p = new Product($obj->id_produits);
-            $p->setName($obj->nom);
-            $p->setIdcategory($obj->id_categories);
-            $p->setPrice($obj->prix);
-            $p->setDescription($obj->description);
-            $p->setImage($obj->image);
-            $p->setRevendeur($obj->revendeur);
+
+            // Fetch options for the product
+            $requeteOptions = $this->cnx->prepare("select * from Options where id_produits=:value");
+            $requeteOptions->bindParam(':value', $obj->id_produits);
+            $requeteOptions->execute();
+            $options = $requeteOptions->fetchAll(PDO::FETCH_OBJ);
+
+            $optionsArray = [];
+            foreach ($options as $option) {
+                $optionProduct = new Product($option->id_options);
+                $optionProduct->setName($option->nom);
+                $optionProduct->setPrice($option->prix);
+                $optionProduct->setDescription($option->description ?? $obj->description); // Use parent description if null
+                $optionProduct->setImage($option->image);
+                array_push($optionsArray, $optionProduct);
+            }
+
+            $p->setOptions($optionsArray); // Assuming you have a setOptions method in Product class
+
             array_push($res, $p);
         }
        
@@ -70,7 +89,7 @@ class ProductRepository extends EntityRepository {
 
     public function findAllByCategory($id): array {
         
-        $requete = $this->cnx->prepare("select * from Options where id_categories=:value");
+        $requete = $this->cnx->prepare("select * from Produits where id_categories=:value");
         $requete->bindParam(':value', $id); // fait le lien entre le "tag" :value et la valeur de $id
         $requete->execute(); // execute la requête
         $answer = $requete->fetchAll(PDO::FETCH_OBJ);

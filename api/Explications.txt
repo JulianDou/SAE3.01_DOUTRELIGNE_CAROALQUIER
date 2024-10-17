@@ -61,7 +61,7 @@ Récupérer toutes les options d'un produit :
     "id_product":1
     "options": [
         {
-            "id_options: 1,
+            "id_options: 3,
             "name":"Manette Xbox",
             "category":1,
             "price":59.99,
@@ -70,7 +70,7 @@ Récupérer toutes les options d'un produit :
             "revendeur":"Microsoft"
         },
         {
-            "id_options: 2,
+            "id_options: 4,
             "name":"Manette Xbox Bleu",
             "category":1,
             "price":69.99,
