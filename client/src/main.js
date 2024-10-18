@@ -16,11 +16,15 @@ import { PromotedView } from "./ui/promoted/index.js";
 // imports pour les résultats
 import { ResultsView } from "./ui/results/index.js";
 
+// imports pour la page produit
+import { ProductPageView } from "./ui/productpage/index.js";
+
 let V = {}
 
 V.init = async function(){
 
-
+    // On vide la section main pour être sûr
+    document.querySelector("#main").innerHTML = "";
 
     // ----- Affichage Nav -----
 
@@ -50,8 +54,8 @@ V.init = async function(){
 }
 
 V.renderHomepage = async function(){
-    // On vide la section main puisque les composants ne le font pas
 
+    // On vide la section main puisque les composants ne le font pas
     document.querySelector("#main").innerHTML = "";
     let data = undefined;
 
@@ -62,12 +66,12 @@ V.renderHomepage = async function(){
 
     // ----- Affichage Produits en vogue -----
 
-    data = await ProductData.fetchOptions(7); // remplacer le fetch par le bon code quand on sera la bonne itération
+    data = await ProductData.fetchAll(); // remplacer le fetch par le bon code quand on sera à la bonne itération
     PromotedView.render("#main", data);
 
 }
 
-V.renderResults = async function(data){
+V.renderResults = function(data){
 
     // On vide la section main puisque les composants ne le font pas
     document.querySelector("#main").innerHTML = "";
@@ -76,6 +80,17 @@ V.renderResults = async function(data){
 
     ResultsView.render("#main", data);
 
+}
+
+V.renderProductPage = function(data, option_id){
+
+    // On vide la section main puisque les composants ne le font pas
+    document.querySelector("#main").innerHTML = "";
+    
+    // ----- Affichage Produit -----
+
+    ProductPageView.render("#main", data, option_id);
+    
 }
 
 let C = {}
@@ -101,22 +116,32 @@ C.handler_clickOnPage = async function(ev){
             case "nav-logo":
                 // Clic sur le logo
                 // On "revient" sur l'accueil
-                console.log("Clic sur le logo");
                 V.renderHomepage();
                 break;
 
             case "nav-category":
                 // Clic sur une catégorie
                 let category_id = ev.target.dataset.categoryid;
-                console.log("Clic sur une catégorie :", category_id);
                 data = await ProductData.fetchByCategory(category_id);
                 V.renderResults(data);
                 break;
 
             case "product-card":
                 // Clic sur un produit
+                // on va chercher l'id du produit (et donc de toutes les options)
                 let product_id = ev.target.dataset.productid;
-                console.log("Clic sur un produit :", product_id);
+
+                // on vérifie si l'élément cliqué est une option
+                // si oui on récupère son id
+                let option_id = ev.target.dataset.optionid;
+
+                // on va chercher les données du produit
+                data = await ProductData.fetchOptions(product_id);
+
+                // on demande à View l'affichage.
+                // note : ce n'est pas grave si option_id est undefined.
+                // en effet le render propre à la page produit gère ce cas
+                V.renderProductPage(data, option_id);
                 break;
 
             case "product-buy":
