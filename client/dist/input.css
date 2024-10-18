@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Fix Tailwind class not working */
+.translate-y-full{
+    transform: translateY(100%);
+}
