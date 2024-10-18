@@ -83,7 +83,4 @@ public function JsonSerialize(): mixed {
         return $this->id_clients;
     }
 
-
-
-
 }
