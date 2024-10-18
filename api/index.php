@@ -2,6 +2,7 @@
 require_once "Controller/ProductController.php";
 require_once "Controller/CategoryController.php";
 require_once "Controller/ClientController.php";
+require_once "Controller/OptionController.php";
 require_once "Class/HttpRequest.php";
 
 
@@ -29,7 +30,8 @@ require_once "Class/HttpRequest.php";
 $router = [
     "products" => new ProductController(),
     "categories" => new CategoryController(),
-    "clients" => new ClientController()
+    "clients" => new ClientController(),
+    "options" => new OptionController()
 
 ];
 
