@@ -2,10 +2,7 @@ import { ProductData } from "./data/product.js";
 import { CategoryData} from "./data/category.js";
 
 // imports pour la nav
-import { DesktopCategoryView } from "./ui/nav/desktop/category/index.js";
-import { MobileCategoryView } from "./ui/nav/mobile/category/index.js";
-import { navDesktopView } from "./ui/nav/desktop/index.js";
-import { navMobileView } from "./ui/nav/mobile/index.js";
+import { navView } from "./ui/nav/index.js";
 
 // imports pour les catégories
 import { CategoriesView} from "./ui/categories/index.js";
@@ -21,27 +18,16 @@ import { ProductPageView } from "./ui/productpage/index.js";
 
 let V = {}
 
-V.init = async function(){
+// V.init a besoin d'un paramètre pour éviter des appels Model dans View
+// C'est Controller, quand il appelle V.init, va lui donner les données des catégories de la nav
+V.init = async function(nav_data){
 
     // On vide la section main pour être sûr
     document.querySelector("#main").innerHTML = "";
 
     // ----- Affichage Nav -----
 
-    // on récupère la largeur de l'écran
-    let vw = Math.max(document.documentElement.clientWidth || 0);
-
-    // affichage de la nav en fonction de l'écran
-    let htmlnav = "";
-    let data = await CategoryData.fetchAll();
-    if (vw>700){
-        navDesktopView.render();
-        htmlnav = DesktopCategoryView.render(data);
-    } else {        
-        navMobileView.render();
-        htmlnav = MobileCategoryView.render(data);
-    }
-    document.querySelector("#nav-categories").innerHTML = htmlnav;
+    navView.render(nav_data);
     
     // ajout d'un event listener pour les clics
     let body = document.querySelector("body");
@@ -95,8 +81,9 @@ V.renderProductPage = function(data, option_id){
 
 let C = {}
 
-C.init = async function(){
-    V.init();
+C.init = async function(){    
+    let nav_data = await CategoryData.fetchAll();
+    V.init(nav_data);
 }
 
 C.handler_clickOnPage = async function(ev){
