@@ -25,10 +25,19 @@ ProductData.fetch = async function(id){
     return data==false ? fakeProducts.pop() : [data];
 }
 
+ProductData.fetchOptions = async function(id){
+    let data = await getRequest('options/'+id);
+    return data==false ? fakeProducts : data;
+}
+
 ProductData.fetchAll = async function(){
     let data = await getRequest('products');
     return data==false ? fakeProducts : data;
 }
 
+ProductData.fetchByCategory = async function(categoryid){
+    let data = await getRequest('products?category='+categoryid);
+    return data==false ? fakeProducts : data;
+}
 
 export {ProductData};
