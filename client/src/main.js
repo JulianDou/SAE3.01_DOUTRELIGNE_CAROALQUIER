@@ -18,6 +18,8 @@ import { ProductPageView } from "./ui/productpage/index.js";
 
 let V = {}
 
+// V.init a besoin d'un paramètre pour éviter des appels Model dans View
+// C'est Controller, quand il appelle V.init, va lui donner les données des catégories de la nav
 V.init = async function(nav_data){
 
     // On vide la section main pour être sûr
