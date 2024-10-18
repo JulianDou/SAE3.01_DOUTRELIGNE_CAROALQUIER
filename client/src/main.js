@@ -13,6 +13,9 @@ import { CategoriesView} from "./ui/categories/index.js";
 // imports pour les produits en vogue
 import { PromotedView } from "./ui/promoted/index.js";
 
+// imports pour les résultats
+import { ResultsView } from "./ui/results/index.js";
+
 let V = {}
 
 V.init = async function(){
@@ -59,8 +62,19 @@ V.renderHomepage = async function(){
 
     // ----- Affichage Produits en vogue -----
 
-    data = await ProductData.fetchAll(); // remplacer le fetchAll par le bon code quand on sera la bonne itération
+    data = await ProductData.fetchOptions(7); // remplacer le fetch par le bon code quand on sera la bonne itération
     PromotedView.render("#main", data);
+
+}
+
+V.renderResults = async function(data){
+
+    // On vide la section main puisque les composants ne le font pas
+    document.querySelector("#main").innerHTML = "";
+    
+    // ----- Affichage Produits -----
+
+    ResultsView.render("#main", data);
 
 }
 
@@ -70,9 +84,10 @@ C.init = async function(){
     V.init();
 }
 
-C.handler_clickOnPage = function(ev){
+C.handler_clickOnPage = async function(ev){
     let nav_dropdown = document.querySelector("#nav-categories");
     let element_id = ev.target.id;
+    let data = undefined;
 
     // On vérifie si l'élément cliqué a une id (sinon c'est qu'il n'est pas censé être cliquable)
     if (element_id!="" && element_id!=undefined){
@@ -87,14 +102,29 @@ C.handler_clickOnPage = function(ev){
                 // Clic sur le logo
                 // On "revient" sur l'accueil
                 console.log("Clic sur le logo");
-
+                V.renderHomepage();
                 break;
 
             case "nav-category":
                 // Clic sur une catégorie
-                console.log("Clic sur une catégorie :", ev.target.dataset.categoryid);
+                let category_id = ev.target.dataset.categoryid;
+                console.log("Clic sur une catégorie :", category_id);
+                data = await ProductData.fetchByCategory(category_id);
+                V.renderResults(data);
                 break;
-            
+
+            case "product-card":
+                // Clic sur un produit
+                let product_id = ev.target.dataset.productid;
+                console.log("Clic sur un produit :", product_id);
+                break;
+
+            case "product-buy":
+                // Clic sur le bouton d'achat d'un produit
+                let boughtproduct_id = ev.target.dataset.productid;
+                console.log("Achat d'un produit :", boughtproduct_id);
+                break;
+
         }
     }
 }
