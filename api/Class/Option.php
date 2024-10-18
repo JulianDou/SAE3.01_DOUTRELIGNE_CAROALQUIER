@@ -11,7 +11,6 @@
 class Option implements JsonSerializable {
     private int $id_produits; // id du produit
     private string $nom; // nom du produit
-    private int $id_categories; // id de la catégorie du produit
     private float $prix; // prix du produit
     private string $description; // description du produit
     private string $image; // image du produit
@@ -50,33 +49,12 @@ class Option implements JsonSerializable {
 
 //      Format visé pour la récupération  :
 
-// {
-//     "id_product":1
-//     "options": [
-//         {
-//             "id_options: 3,
-//             "name":"Manette Xbox",
-//             "category":1,
-//             "price":59.99,
-//             "description":"Une superbe manette",
-//             "image":"https:\/\/img-prod-cms-rt-microsoft-com.akamaized.net\/cms\/api\/am\/imageFileData\/RE4FlSK?ver=3eb6",
-//             "revendeur":"Microsoft"
-//         },
-//         {
-//             "id_options: 4,
-//             "name":"Manette Xbox Bleu",
-//             "category":1,
-//             "price":69.99,
-//             "description":"Une superbe manette",
-//             "image":"https:\/\/img-prod-cms-rt-microsoft-com.akamaized.net\/cms\/api\/am\/imageFileData\/RE4FlSK?ver=3eb6",
-//             "revendeur":"Microsoft"
-//         }
-//     ]
-// }
+
 
 public function JsonSerialize(): mixed {
     $json = [
         "id" => $this->id_produits,
+        "id_options" => $this->id_options ?? null,
         "name" => $this->nom ?? null,
         "short_name" => $this->nom_court ?? null,
         "category" => $this->id_categories ?? null,
@@ -100,10 +78,21 @@ public function JsonSerialize(): mixed {
         return $this->id_produits;
     }
 
+        /**
+     * Set the value of id_options
+     *
+     * @return  self
+     */
+
+     public function setIdOptions(int $id_options): self
+     {
+         $this->id_options = $id_options;
+         return $this;  
+     }
     /**
      * get the value of id for option
      */
-    public function getIdOption(): int
+    public function getIdOptions(): int
     {
         return $this->id_options;
     }
@@ -209,24 +198,6 @@ public function JsonSerialize(): mixed {
     }
 
 
-    /**
-     * Get the value of idcategory
-     */ 
-    public function getIdcategory()
-    {
-        return $this->id_categories;
-    }
-
-    /**
-     * Set the value of idcategory là
-     *
-     * @return  self
-     */ 
-    public function setIdcategory(int $idcategory): self
-    {
-        $this->id_categories = $idcategory;
-        return $this;
-    }
 
     /**
      * Set the value of id
@@ -259,6 +230,9 @@ public function JsonSerialize(): mixed {
     {
         return $this->nom_court;
     }
+
+
+
 
     
 }

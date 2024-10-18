@@ -52,6 +52,7 @@ class OptionRepository extends EntityRepository {
                 $optionProduct->setPrice($option->prix); // Assuming you have a setPrice method in Option class
                 $optionProduct->setImage($option->image); // Assuming you have a setImage method in Option class
                 $optionProduct->setNomCourt($option->nom_court); // Assuming you have a setNomCourt method in Option class
+                $optionProduct->setIdOptions($option->id_options); // Assuming you have a setIdOptions method in Option class
 
                 array_push($res, $optionProduct);
             }
@@ -87,6 +88,37 @@ class OptionRepository extends EntityRepository {
             array_push($res, $p);
         }
        
+        return $res;
+    }
+
+    public function findByOption($id_produits, $id_options): array {
+        $requete = $this->cnx->prepare("
+            select Produits.*, Produits_Options.prix, Produits_Options.image, Options.nom_court 
+            from Produits
+            left join Produits_Options on Produits.id_produits = Produits_Options.id_produits
+            left join Options on Produits_Options.id_options = Options.id_options
+            where Produits.id_produits=:id_produits and Options.id_options=:id_options
+        ");
+        $requete->bindParam(':id_produits', $id_produits);
+        $requete->bindParam(':id_options', $id_options);
+        $requete->execute();
+        $answer = $requete->fetchAll(PDO::FETCH_OBJ);
+
+
+        $res = [];
+        foreach($answer as $obj){
+            $p = new Option($obj->id_produits);
+            $p->setName($obj->nom); // Ensure this is the correct field for the product name
+            $p->setDescription($obj->description);
+            $p->setRevendeur($obj->revendeur);
+            $p->setPrice($obj->prix); // Assuming you have a setPrice method in Option class
+            $p->setImage($obj->image); // Assuming you have a setImage method in Option class
+            $p->setNomCourt($obj->nom_court); // Assuming you have a setNomCourt method in Option class
+            $p->setIdOptions($obj->id_options); // Assuming you have a setIdOptions method in Option class
+
+            array_push($res, $p);
+        }
+
         return $res;
     }
 
