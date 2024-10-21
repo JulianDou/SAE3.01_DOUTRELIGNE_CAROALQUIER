@@ -1,11 +1,9 @@
 import { ProductData } from "./data/product.js";
 import { CategoryData} from "./data/category.js";
+import { CartData } from "./data/cart.js";
 
 // imports pour la nav
-import { DesktopCategoryView } from "./ui/nav/desktop/category/index.js";
-import { MobileCategoryView } from "./ui/nav/mobile/category/index.js";
-import { navDesktopView } from "./ui/nav/desktop/index.js";
-import { navMobileView } from "./ui/nav/mobile/index.js";
+import { navView } from "./ui/nav/index.js";
 
 // imports pour les catégories
 import { CategoriesView} from "./ui/categories/index.js";
@@ -19,29 +17,22 @@ import { ResultsView } from "./ui/results/index.js";
 // imports pour la page produit
 import { ProductPageView } from "./ui/productpage/index.js";
 
+// imports pour le panier
+import { CartView } from "./ui/cart/index.js";
+
+
 let V = {}
 
-V.init = async function(){
+// V.init a besoin d'un paramètre pour éviter des appels Model dans View
+// C'est Controller, quand il appelle V.init, va lui donner les données des catégories de la nav
+V.init = async function(nav_data){
 
     // On vide la section main pour être sûr
     document.querySelector("#main").innerHTML = "";
 
     // ----- Affichage Nav -----
 
-    // on récupère la largeur de l'écran
-    let vw = Math.max(document.documentElement.clientWidth || 0);
-
-    // affichage de la nav en fonction de l'écran
-    let htmlnav = "";
-    let data = await CategoryData.fetchAll();
-    if (vw>700){
-        navDesktopView.render();
-        htmlnav = DesktopCategoryView.render(data);
-    } else {        
-        navMobileView.render();
-        htmlnav = MobileCategoryView.render(data);
-    }
-    document.querySelector("#nav-categories").innerHTML = htmlnav;
+    navView.render(nav_data);
     
     // ajout d'un event listener pour les clics
     let body = document.querySelector("body");
@@ -93,17 +84,38 @@ V.renderProductPage = function(data, option_id){
     
 }
 
+V.renderCart = function(data, total){    
+
+    let overlay = document.querySelector("#dark-overlay");
+    overlay.classList.toggle("hidden");
+
+    let side_panel = document.querySelector("#side-panel");
+    side_panel.classList.toggle("translate-x-full");
+    if (side_panel.innerHTML == ""){
+        CartView.render("#side-panel", data, total);
+    }
+    else {
+        side_panel.innerHTML = "";
+    }
+
+}
+
 let C = {}
 
-C.init = async function(){
-    V.init();
+C.init = async function(){    
+    let nav_data = await CategoryData.fetchAll();
+    V.init(nav_data);
 }
 
 C.handler_clickOnPage = async function(ev){
     let nav_dropdown = document.querySelector("#nav-categories");
     let element_id = ev.target.id;
     let data = undefined;
-
+    let product_id = undefined;
+    let option_id = undefined;
+    let total = undefined;
+    let quantite = undefined;
+    
     // On vérifie si l'élément cliqué a une id (sinon c'est qu'il n'est pas censé être cliquable)
     if (element_id!="" && element_id!=undefined){
         switch (element_id) {
@@ -126,14 +138,30 @@ C.handler_clickOnPage = async function(ev){
                 V.renderResults(data);
                 break;
 
+            case "nav-cart":
+                // Clic sur le panier
+                data = CartData.read();
+                
+                total = undefined;
+                if (data.length == 0){
+                    data = undefined;
+                }
+                else {
+                    total = CartData.total();
+                }
+
+                V.renderCart(data, total);
+
+                break;
+
             case "product-card":
                 // Clic sur un produit
                 // on va chercher l'id du produit (et donc de toutes les options)
-                let product_id = ev.target.dataset.productid;
+                product_id = ev.target.dataset.productid;
 
                 // on vérifie si l'élément cliqué est une option
                 // si oui on récupère son id
-                let option_id = ev.target.dataset.optionid;
+                option_id = ev.target.dataset.optionid;
 
                 // on va chercher les données du produit
                 data = await ProductData.fetchOptions(product_id);
@@ -146,8 +174,71 @@ C.handler_clickOnPage = async function(ev){
 
             case "product-buy":
                 // Clic sur le bouton d'achat d'un produit
-                let boughtproduct_id = ev.target.dataset.productid;
-                console.log("Achat d'un produit :", boughtproduct_id);
+                product_id = ev.target.dataset.productid;
+                option_id = ev.target.dataset.optionid;
+
+                data = await ProductData.fetchByOption(product_id, option_id);
+
+                CartData.add(data.id, data.id_options, data.name, data.short_name, data.price, data.image, data.retailer, 1);
+                break;
+
+            case "cart-increase":
+                // Clic sur le bouton d'augmentation de quantité
+                product_id = ev.target.dataset.productid;
+                option_id = ev.target.dataset.optionid;
+
+                CartData.add(product_id, option_id);
+
+                quantite = document.querySelector(`#cart-amount-` + product_id + '-' + option_id);
+                quantite.innerHTML = parseFloat(quantite.innerHTML) + 1;
+
+                total = CartData.total();
+                document.querySelector("#cart-total").innerHTML = total;
+
+                break;
+
+            case "cart-decrease":
+                // Clic sur le bouton de diminution de quantité
+                product_id = ev.target.dataset.productid;
+                option_id = ev.target.dataset.optionid;
+
+                CartData.remove(option_id);
+
+                quantite = document.querySelector(`#cart-amount-` + product_id + '-' + option_id);
+                if (parseFloat(quantite.innerHTML) > 1){
+                    quantite.innerHTML = parseFloat(quantite.innerHTML) - 1;
+                }
+                else if (parseFloat(quantite.innerHTML) == 1){
+                    CartData.delete(product_id, option_id);
+
+                    let product = document.querySelector(`#cart-product-` + product_id + '-' + option_id);
+                    product.remove();
+
+                    let counter = document.querySelector("#cart-counter");
+                    counter.innerHTML = CartData.count();
+                }
+
+                total = CartData.total();
+                document.querySelector("#cart-total").innerHTML = total;
+
+                break;
+
+            case "cart-remove":
+                // Clic sur le bouton de suppression d'un produit
+                product_id = ev.target.dataset.productid;
+                option_id = ev.target.dataset.optionid;
+
+                CartData.delete(product_id, option_id);
+
+                let product = document.querySelector(`#cart-product-` + product_id + '-' + option_id);
+                product.remove();
+
+                total = CartData.total();
+                document.querySelector("#cart-total").innerHTML = total;
+
+                let counter = document.querySelector("#cart-counter");
+                counter.innerHTML = CartData.count();
+
                 break;
 
         }

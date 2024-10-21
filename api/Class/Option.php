@@ -17,6 +17,7 @@ class Option implements JsonSerializable {
     private string $revendeur; // revendeur du produit
     private int $id_options; // id de l'option du produit
     private string $nom_court; // nom court de l'option (dans l'option de base)
+    private int $stock; // stock de l'option
 
 
     public function __construct(int $id_produits){
@@ -55,6 +56,7 @@ public function JsonSerialize(): mixed {
     $json = [
         "id" => $this->id_produits,
         "id_options" => $this->id_options ?? null,
+        "stock" => $this->stock ?? null,
         "name" => $this->nom ?? null,
         "short_name" => $this->nom_court ?? null,
         "category" => $this->id_categories ?? null,
@@ -231,6 +233,26 @@ public function JsonSerialize(): mixed {
         return $this->nom_court;
     }
 
+    /**
+     * Set the value of stock
+     *
+     * @return  self
+     */
+    public function setStock(int $stock): self
+    {
+        $this->stock = $stock;
+        return $this;
+    }
+
+    /**
+     * Get the value of stock
+     *
+     * @return  self
+     */
+    public function getStock(): int
+    {
+        return $this->stock;
+    }
 
 
 

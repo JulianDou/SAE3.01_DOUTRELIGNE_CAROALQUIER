@@ -30,8 +30,8 @@
             <div>
                 <!-- mettre le stock/magasin ici -->
             </div>
-            <div class="flex w-full justify-center rounded-md bg-micromania-blue py-6 hover:cursor-pointer hover:bg-micromania-darkblue">
-                <p class="text-white">Ajouter au panier</p>
+            <div id="product-buy" data-productid="{{id}}" data-optionid="{{id_options}}" class="flex w-full justify-center rounded-md bg-micromania-blue py-6 hover:cursor-pointer hover:bg-micromania-darkblue text-white">
+                Ajouter au panier
             </div>
         </div>
     </div>

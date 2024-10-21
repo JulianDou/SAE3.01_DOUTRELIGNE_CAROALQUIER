@@ -252,21 +252,92 @@ https://mmi.unilim.fr/~caroalquier1/SAE301/api
 [
   {
     "id": 3,
+    "id_options": 5,
     "name": "Manette de Xbox",
     "short_name": "Rouge",
     "price": 61.99,
-    "description": "Ceci est une manette de xbox classique",
+    "description": "Ceci est une manette de xbox classque ",
     "image": "manette-microsoft-rouge.jpg",
     "retailer": "Microsoft"
   },
   {
     "id": 3,
+    "id_options": 6,
     "name": "Manette de Xbox",
     "short_name": "Bleue",
     "price": 59.99,
-    "description": "Ceci est une manette de xbox classique",
+    "description": "Ceci est une manette de xbox classque ",
     "image": "manette-microsoft-bleue.jpg",
     "retailer": "Microsoft"
   }
 ]
 ```
+### 10. Récupérer toutes les commandes
+
+**Requête**  
+`GET /commandes`
+
+**Exemple de réponse**
+```json
+[
+  {
+    "id_commandes": 1,
+    "id_clients": 1,
+    "date_commande": "2024-10-21 09:35:57",
+    "statut": "disponible",
+    "produits": [
+      {
+        "id_produits": 6,
+        "quantite": 3,
+        "prix": "19.99"
+      }
+    ]
+  },
+  {
+    "id_commandes": 2,
+    "id_clients": 1,
+    "date_commande": "2024-10-21 09:35:57",
+    "statut": "en_cours",
+    "produits": [
+      {
+        "id_produits": 6,
+        "quantite": 3,
+        "prix": "19.99"
+      },
+      {
+        "id_produits": 4,
+        "quantite": 2,
+        "prix": "59.99"
+      }
+    ]
+  }
+]
+```
+
+
+### 11. Récupérer une commande spécifique
+
+**Requête**  
+`GET /commandes/{id}`
+
+**Exemple**  
+`GET /commandes/1`
+
+**Exemple de réponse**
+```json
+{
+  "id_commandes": 1,
+  "id_clients": 1,
+  "date_commande": "2024-10-21 09:35:57",
+  "statut": "disponible",
+  "produits": [
+    {
+      "id_produits": 6,
+      "quantite": 3,
+      "prix": "19.99"
+    }
+  ]
+}
+```
+
+---+-+-+-+-+

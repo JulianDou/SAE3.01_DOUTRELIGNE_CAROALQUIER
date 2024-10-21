@@ -3,6 +3,7 @@ require_once "Controller/ProductController.php";
 require_once "Controller/CategoryController.php";
 require_once "Controller/ClientController.php";
 require_once "Controller/OptionController.php";
+require_once "Controller/CommandeController.php";
 require_once "Class/HttpRequest.php";
 
 
@@ -31,7 +32,8 @@ $router = [
     "products" => new ProductController(),
     "categories" => new CategoryController(),
     "clients" => new ClientController(),
-    "options" => new OptionController()
+    "options" => new OptionController(),
+    "commandes" => new CommandeController()
 
 ];
 
@@ -54,6 +56,9 @@ if ( isset($router[$route]) ){ // si on a un controleur pour cette ressource
     die();
 }
 http_response_code(404); // si on a pas de controlleur pour traiter la requête -> 404
+
+
 die();
+
 
 ?>
