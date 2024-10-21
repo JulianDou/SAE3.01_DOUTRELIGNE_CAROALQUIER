@@ -34,7 +34,6 @@ class ProductRepository extends EntityRepository {
         $p = new Product($answer->id_produits);
         $p->setName($answer->nom);
         $p->setDescription($answer->description);
-        $p->setImage($answer->image);
         $p->setRevendeur($answer->revendeur);
 
         // Fetch options for the product
