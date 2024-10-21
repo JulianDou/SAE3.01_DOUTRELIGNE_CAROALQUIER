@@ -208,6 +208,15 @@ C.handler_clickOnPage = async function(ev){
                 if (parseFloat(quantite.innerHTML) > 1){
                     quantite.innerHTML = parseFloat(quantite.innerHTML) - 1;
                 }
+                else if (parseFloat(quantite.innerHTML) == 1){
+                    CartData.delete(product_id, option_id);
+
+                    let product = document.querySelector(`#cart-product-` + product_id + '-' + option_id);
+                    product.remove();
+
+                    let counter = document.querySelector("#cart-counter");
+                    counter.innerHTML = CartData.count();
+                }
 
                 total = CartData.total();
                 document.querySelector("#cart-total").innerHTML = total;

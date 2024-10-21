@@ -8,7 +8,7 @@
     <div class="flex flex-col justify-between w-full">
         <div class="flex flex-col gap-2">
             <p class="text-micromania-blue font-semibold">
-                {{name}}
+                {{name}} - {{short_name}}
             </p>
             <p class="text-generic-grey">
                 {{retailer}}
