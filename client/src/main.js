@@ -1,5 +1,6 @@
 import { ProductData } from "./data/product.js";
 import { CategoryData} from "./data/category.js";
+import { CartData } from "./data/cart.js";
 
 // imports pour la nav
 import { navView } from "./ui/nav/index.js";
@@ -90,6 +91,8 @@ C.handler_clickOnPage = async function(ev){
     let nav_dropdown = document.querySelector("#nav-categories");
     let element_id = ev.target.id;
     let data = undefined;
+    let product_id = undefined;
+    let option_id = undefined;
 
     // On vérifie si l'élément cliqué a une id (sinon c'est qu'il n'est pas censé être cliquable)
     if (element_id!="" && element_id!=undefined){
@@ -113,14 +116,20 @@ C.handler_clickOnPage = async function(ev){
                 V.renderResults(data);
                 break;
 
+            case "nav-cart":
+                // Clic sur le panier
+                data = CartData.read();
+                console.log(data);
+                break;
+
             case "product-card":
                 // Clic sur un produit
                 // on va chercher l'id du produit (et donc de toutes les options)
-                let product_id = ev.target.dataset.productid;
+                product_id = ev.target.dataset.productid;
 
                 // on vérifie si l'élément cliqué est une option
                 // si oui on récupère son id
-                let option_id = ev.target.dataset.optionid;
+                option_id = ev.target.dataset.optionid;
 
                 // on va chercher les données du produit
                 data = await ProductData.fetchOptions(product_id);
@@ -133,8 +142,13 @@ C.handler_clickOnPage = async function(ev){
 
             case "product-buy":
                 // Clic sur le bouton d'achat d'un produit
-                let boughtproduct_id = ev.target.dataset.productid;
-                console.log("Achat d'un produit :", boughtproduct_id);
+                product_id = ev.target.dataset.productid;
+                option_id = ev.target.dataset.optionid;
+
+                data = await ProductData.fetchByOption(product_id, option_id);
+
+                CartData.add(data.id, data.id_options, data.name, data.short_name, data.price, data.image, data.retailer, 1);
+                console.log("Panier : ", CartData.read());
                 break;
 
         }

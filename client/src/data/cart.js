@@ -33,11 +33,11 @@ CartData.clear = function(){
 // CartData.read peut prendre en paramètre un produit spécifique.
 // Il renvoie alors ce produit spécifique.
 // Sinon il renvoie tout le panier.
-CartData.read = function(id){
+CartData.read = function(id_options){
     let data = CartContent;
 
-    if (id != undefined){
-        data = CartContent.filter(item => item.id == id);
+    if (id_options != undefined){
+        data = CartContent.filter(item => item.id_options == id_options);
     }
 
     if (data.length == 0){
@@ -51,6 +51,7 @@ CartData.read = function(id){
 // CartData.add ajoute un produit au panier, OU augmente sa quantité
 // si celui ci était déjà présent.
 // Il renvoie le panier après ajout.
+// On utilise l'id de l'option plutôt que l'id du produit en général.
 CartData.add = async function(id, id_options, name, short_name, price, image, retailer, quantite){
     let product = {
         "id": id,
@@ -63,28 +64,31 @@ CartData.add = async function(id, id_options, name, short_name, price, image, re
         "quantite": quantite
     };
 
-    if (CartContent.filter(item => item.id == id).length == 0){
-        CartContent.push(product);
+    for (let key in product) {
+        if (product[key] === undefined) {
+            console.log("Erreur : produit invalide");
+            return "Erreur : produit invalide";
+        }
     }
-    else {
-        CartContent = CartContent.map(item => {
-            if (item.id == id){
-                item.quantite ++;
-            }
-            return item;
-        });
+
+    let existingProduct = CartContent.find(item => item.id === product.id && item.id_options === product.id_options);
+    
+    if (existingProduct) {
+        existingProduct.quantite += quantite;
+    } else {
+        CartContent.push(product);
     }
     return CartContent;
 }
 
 // CartData.remove diminue la quantité d'un produit dans le panier.
-CartData.remove = function(id){
-    if (CartContent.filter(item => item.id == id).length == 0){
+CartData.remove = function(id_options){
+    if (CartContent.filter(item => item.id_options == id_options).length == 0){
         return "Erreur : produit non trouvé";
     }
     else {
         CartContent = CartContent.map(item => {
-            if (item.id == id && item.quantite > 1){
+            if (item.id_options == id_options && item.quantite > 1){
                 item.quantite --;
             }
             return item;
@@ -95,8 +99,8 @@ CartData.remove = function(id){
 
 // CartData.delete supprime un produit du panier.
 // Il renvoie le panier après suppression.
-CartData.delete = function(id){
-    CartContent = CartContent.filter(item => item.id != id);
+CartData.delete = function(id_options){
+    CartContent = CartContent.filter(item => item.id_options != id_options);
     return CartContent;
 }
 
