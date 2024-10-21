@@ -41,7 +41,7 @@ CartData.read = function(id_options){
     }
 
     if (data.length == 0){
-        return "Erreur : produit non trouvé";
+        return [];
     }
     else {
         return data;
@@ -64,18 +64,19 @@ CartData.add = async function(id, id_options, name, short_name, price, image, re
         "quantite": quantite
     };
 
-    for (let key in product) {
-        if (product[key] === undefined) {
-            console.log("Erreur : produit invalide");
-            return "Erreur : produit invalide";
-        }
-    }
-
-    let existingProduct = CartContent.find(item => item.id === product.id && item.id_options === product.id_options);
+    let existingProduct = CartContent.find(item => item.id == product.id && item.id_options == product.id_options);
     
-    if (existingProduct) {
-        existingProduct.quantite += quantite;
+    if (existingProduct != undefined) {
+        existingProduct.quantite ++;
     } else {
+
+        for (let key in product) {
+            if (product[key] === undefined) {
+                console.log("Erreur : produit invalide");
+                return "Erreur : produit invalide";
+            }
+        }
+
         CartContent.push(product);
     }
     return CartContent;
@@ -99,18 +100,24 @@ CartData.remove = function(id_options){
 
 // CartData.delete supprime un produit du panier.
 // Il renvoie le panier après suppression.
-CartData.delete = function(id_options){
-    CartContent = CartContent.filter(item => item.id_options != id_options);
+CartData.delete = function(id, id_options){
+    CartContent = CartContent.filter(item => !(item.id == id && item.id_options == id_options));
     return CartContent;
 }
 
 // CartData.total renvoie le montant total du panier.
+// Attention, le total est arrondi à 2 chiffres après la virgule.
 CartData.total = function(){
     let total = 0;
     CartContent.forEach(item => {
         total += item.price * item.quantite;
     });
-    return total;
+    return total.toFixed(2);
+}
+
+// CartData.count renvoie le nombre total de produits (individuels) dans le panier.
+CartData.count = function(){
+    return CartContent.length;
 }
 
 
