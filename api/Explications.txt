@@ -1,0 +1,233 @@
+
+Récupérer tous les produits sans leurs options :
+https://mmi.unilim.fr/~caroalquier1/SAE301/api/products
+[
+  {
+    "id": 3,
+    "name": "Manette de Xbox",
+    "price": 61.99,
+    "description": "Ceci est une manette de xbox classque ",
+    "image": "manette-microsoft-rouge.jpg",
+    "retailer": "Microsoft"
+  },
+  {
+    "id": 4,
+    "name": "Manette de switch",
+    "price": 69.99,
+    "description": "Une manette pour la console de nintendo qu'est la nintendo switch une console hybride car elle est portable et fixe ce qui est dingue quand on y pense.",
+    "image": "manette-nintendo-rouge.jpg",
+    "retailer": "Nintendo"
+  },
+  {
+    "id": 5,
+    "name": "Minecraft",
+    "price": 19.99,
+    "description": "Un jue de cube classique",
+    "image": "minecraft-xbox.jpg",
+    "retailer": "Microsoft"
+  },
+  {
+    "id": 6,
+    "name": "Nintendo Switch",
+    "price": 299.99,
+    "description": "Une console hybride incroyable",
+    "image": "switch-standard.jpg",
+    "retailer": "Nintendo"
+  },
+  {
+    "id": 7,
+    "name": "PS5",
+    "price": 499.99,
+    "description": "Une console objectivement mieux que la PS4.",
+    "image": "ps5-standard.jpg",
+    "retailer": "Sony"
+  }
+]
+
+Récupérer toutes les catégories :
+https://mmi.unilim.fr/~caroalquier1/SAE301/api/categories
+
+[
+  {
+    "id": 1,
+    "name": "Manettes",
+    "icone": "manettes.svg",
+    "image": "manettes.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Consoles",
+    "icone": "consoles.svg",
+    "image": "consoles.webp"
+  },
+  {
+    "id": 3,
+    "name": "Jeux-vidéo",
+    "icone": "jeux-video.svg",
+    "image": "jeux-video.jpg"
+  }
+]
+
+Récupérer une catégorie : 
+
+https://mmi.unilim.fr/~caroalquier1/SAE301/api/categories/1
+
+Format de la catégorie:
+
+{
+  "id": 1,
+  "name": "Manettes",
+  "icone": "manettes.svg",
+  "image": "manettes.jpg"
+}
+
+Récupérer toues les options d'une catégorie
+
+https://mmi.unilim.fr/~caroalquier1/SAE301/api/products?category=1
+
+Format :
+[
+  {
+    "id": 3,
+    "name": "Manette de Xbox",
+    "price": 61.99,
+    "description": "Ceci est une manette de xbox classque ",
+    "image": "manette-microsoft-rouge.jpg",
+    "retailer": "Microsoft"
+  },
+  {
+    "id": 4,
+    "name": "Manette de switch",
+    "price": 69.99,
+    "description": "Une manette pour la console de nintendo qu'est la nintendo switch une console hybride car elle est portable et fixe ce qui est dingue quand on y pense.",
+    "image": "manette-nintendo-rouge.jpg",
+    "retailer": "Nintendo"
+  }
+]
+
+
+
+Récupérer toutes les options d'un produit :
+
+https://mmi.unilim.fr/~caroalquier1/SAE301/api/products/1
+
+Format :
+{
+    "id_product":1
+    "options": [
+        {
+            "id_options: 3,
+            "name":"Manette Xbox",
+            "category":1,
+            "price":59.99,
+            "description":"Une superbe manette",
+            "image":"https:\/\/img-prod-cms-rt-microsoft-com.akamaized.net\/cms\/api\/am\/imageFileData\/RE4FlSK?ver=3eb6",
+            "revendeur":"Microsoft"
+        },
+        {
+            "id_options: 4,
+            "name":"Manette Xbox Bleu",
+            "category":1,
+            "price":69.99,
+            "description":"Une superbe manette",
+            "image":"https:\/\/img-prod-cms-rt-microsoft-com.akamaized.net\/cms\/api\/am\/imageFileData\/RE4FlSK?ver=3eb6",
+            "revendeur":"Microsoft"
+        }
+    ]
+}
+
+CLIENTS :
+
+Récupérer les informations de tous les clients : 
+
+https://mmi.unilim.fr/~caroalquier1/SAE301/api/clients
+
+format :
+
+[
+  {
+    "id": 1,
+    "name": "Julian",
+    "email": "julian.dou@gmail.com",
+    "password": "micromania2024"
+  }
+]
+
+Renvoyer toutes les options du produit d'id 3
+https://mmi.unilim.fr/~caroalquier1/SAE301/api/options/3
+
+[
+  {
+    "id": 3,
+    "id_options": 5,
+    "name": "Manette de Xbox",
+    "short_name": "Rouge",
+    "price": 61.99,
+    "description": "Ceci est une manette de xbox classque ",
+    "image": "manette-microsoft-rouge.jpg",
+    "retailer": "Microsoft"
+  },
+  {
+    "id": 3,
+    "id_options": 6,
+    "name": "Manette de Xbox",
+    "short_name": "Bleue",
+    "price": 59.99,
+    "description": "Ceci est une manette de xbox classque ",
+    "image": "manette-microsoft-bleue.jpg",
+    "retailer": "Microsoft"
+  }
+]
+
+Renvoyer l'option d'id 6 du produit d'id 3
+
+https://mmi.unilim.fr/~caroalquier1/SAE301/api/options/3?option=6
+
+Format de la réponse :
+
+[
+  {
+    "id": 3,
+    "id_options": 6,
+    "name": "Manette de Xbox",
+    "short_name": "Bleue",
+    "price": 59.99,
+    "description": "Ceci est une manette de xbox classque ",
+    "image": "manette-microsoft-bleue.jpg",
+    "retailer": "Microsoft"
+  }
+]
+
+Récupérer toutes les options de tous les produits :
+https://mmi.unilim.fr/~caroalquier1/SAE301/api/options
+
+Format de la réponse :
+[
+  {
+    "id": 3,
+    "name": "Manette de Xbox",
+    "short_name": "Rouge",
+    "price": 61.99,
+    "description": "Ceci est une manette de xbox classque ",
+    "image": "manette-microsoft-rouge.jpg",
+    "retailer": "Microsoft"
+  },
+  {
+    "id": 3,
+    "name": "Manette de Xbox",
+    "short_name": "Bleue",
+    "price": 59.99,
+    "description": "Ceci est une manette de xbox classque ",
+    "image": "manette-microsoft-bleue.jpg",
+    "retailer": "Microsoft"
+  },
+  {
+    "id": 4,
+    "name": "Manette de switch",
+    "short_name": "Rouge",
+    "price": 69.99,
+    "description": "Une manette pour la console de nintendo qu'est la nintendo switch une console hybride car elle est portable et fixe ce qui est dingue quand on y pense.",
+    "image": "manette-nintendo-rouge.jpg",
+    "retailer": "Nintendo"
+  }
+]
