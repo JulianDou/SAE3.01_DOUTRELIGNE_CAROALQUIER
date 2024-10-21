@@ -269,7 +269,7 @@ https://mmi.unilim.fr/~caroalquier1/SAE301/api
     "description": "Ceci est une manette de xbox classque ",
     "image": "manette-microsoft-bleue.jpg",
     "retailer": "Microsoft"
-  },
+  }
 ]
 ```
 ### 10. Récupérer toutes les commandes

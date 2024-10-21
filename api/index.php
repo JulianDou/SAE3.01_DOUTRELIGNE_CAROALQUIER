@@ -56,6 +56,9 @@ if ( isset($router[$route]) ){ // si on a un controleur pour cette ressource
     die();
 }
 http_response_code(404); // si on a pas de controlleur pour traiter la requête -> 404
+
+
 die();
+
 
 ?>
