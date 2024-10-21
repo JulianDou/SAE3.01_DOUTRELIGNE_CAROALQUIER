@@ -1,4 +1,4 @@
-<div class="flex flex-col w-[32rem] h-full bg-white p-5 gap-2">
+<div class="flex flex-col w-screen md:w-[32rem] h-full bg-white p-5 gap-2">
     <div class="flex flex-col gap-1 h-full items-stretch">
         <div class="flex justify-between">
             <p class="text-xl font-bold">
