@@ -33,6 +33,42 @@ let CartView = {
         document.querySelector(target).innerHTML += template_new;
     },
 
+    updateItem: function(product_id, option_id, quantityChange, count, total) {
+        let quantite = document.querySelector(`#cart-amount-` + product_id + '-' + option_id);
+        let newQuantity = parseFloat(quantite.innerHTML) + quantityChange;
+    
+        if (newQuantity <= 0) {
+            C.removeCartItem(product_id, option_id);
+        } else {
+            quantite.innerHTML = newQuantity;
+    
+            // Update the cart notification count
+    
+            // Update the cart total
+            document.querySelector("#cart-total").innerHTML = total;
+        }
+    
+        if (count == 0) {
+            document.querySelector("#cart-notification").classList.add("hidden");
+        } else {
+            document.querySelector("#cart-notification").classList.remove("hidden");
+        }
+    },
+
+    removeItem: function(product_id, option_id, count, total) {
+        let product = document.querySelector(`#cart-product-` + product_id + '-' + option_id);
+        product.remove();
+    
+        document.querySelector("#cart-total").innerHTML = total;
+    
+        document.querySelector("#cart-counter").innerHTML = count;
+        document.querySelector("#cart-notification").innerHTML = count;
+    
+        if (count == 0) {
+            document.querySelector("#cart-notification").classList.add("hidden");
+        }    
+    },
+
 }
 
 export { CartView };

@@ -83,13 +83,13 @@ CartData.add = async function(id, id_options, name, short_name, price, image, re
 }
 
 // CartData.remove diminue la quantité d'un produit dans le panier.
-CartData.remove = function(id_options){
-    if (CartContent.filter(item => item.id_options == id_options).length == 0){
+CartData.remove = function(id, id_options){
+    if (CartContent.filter(item => item.id == id && item.id_options == id_options).length == 0){
         return "Erreur : produit non trouvé";
     }
     else {
         CartContent = CartContent.map(item => {
-            if (item.id_options == id_options && item.quantite > 1){
+            if (item.id == id && item.id_options == id_options && item.quantite > 1){
                 item.quantite --;
             }
             return item;
