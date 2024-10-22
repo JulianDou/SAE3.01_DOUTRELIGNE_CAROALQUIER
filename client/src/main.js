@@ -20,6 +20,9 @@ import { ProductPageView } from "./ui/productpage/index.js";
 // imports pour le panier
 import { CartView } from "./ui/cart/index.js";
 
+// imports pour le login
+import { LoginView } from "./ui/login/index.js";
+
 
 let V = {}
 
@@ -108,6 +111,20 @@ V.renderCart = function(data, total){
 
 }
 
+V.renderLogin = function(){
+    let overlay = document.querySelector("#dark-overlay");
+    overlay.classList.toggle("hidden");
+
+    let side_panel = document.querySelector("#side-panel");
+    side_panel.classList.toggle("translate-x-full");
+    if (side_panel.innerHTML == ""){
+        LoginView.render("#side-panel");
+    }
+    else {
+        side_panel.innerHTML = "";
+    }
+}
+
 let C = {}
 
 C.init = async function(){    
@@ -138,6 +155,12 @@ C.handler_clickOnMain = async function(ev) {
                 let count = CartData.count();
                 document.querySelector("#cart-notification").classList.remove("hidden");
                 document.querySelector("#cart-notification").innerHTML = count;
+                break;
+
+            case "nav-category":
+                let category_id = ev.target.dataset.categoryid;
+                data = await ProductData.fetchByCategory(category_id);
+                V.renderResults(data);
                 break;
         }
     }
@@ -174,18 +197,22 @@ C.handler_clickOnNav = async function(ev) {
                 }
                 V.renderCart(data, total);
                 break;
+
+            case "nav-login":
+                V.renderLogin();
+                break;
         }
     }
 }
 
-C.handler_clickOnSidepanel = function(ev) {
+C.handler_clickOnSidepanel = async function(ev) {
     let element_id = ev.target.id;
     let product_id = ev.target.dataset.productid;
     let option_id = ev.target.dataset.optionid;
 
     if (element_id != "" && element_id != undefined) {
         switch (element_id) {
-            case "nav-cart":
+            case "cart-close":
                 C.updateCartView();
                 break;
 
@@ -202,6 +229,12 @@ C.handler_clickOnSidepanel = function(ev) {
             case "cart-remove":
                 CartData.delete(product_id, option_id);
                 CartView.removeItem(product_id, option_id, CartData.count(), CartData.total());
+                break;
+
+            case "product-link":
+                C.updateCartView();
+                let data = await ProductData.fetchOptions(product_id);
+                V.renderProductPage(data, option_id);
                 break;
         }
     }
