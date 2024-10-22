@@ -1,7 +1,7 @@
 <div class="flex flex-col w-screen md:w-[32rem] h-full bg-white p-5 gap-2">
     <div class="flex flex-col gap-1 h-full items-stretch">
         <div class="flex justify-between">
-            <p class="text-xl font-bold">
+            <p class="text-2xl md:text-xl font-bold">
                 Mon Panier (<span id="cart-counter">{{cart.length}}</span>)
             </p>
             <svg id="nav-cart" class="hover:cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -9,16 +9,16 @@
             </svg>
         </div>
         <div class="relative flex h-full overflow-hidden w-full">
-            <div class="absolute flex flex-col top-0 left-0 w-full h-full overflow-y-scroll">
+            <div class="text-xl md:text-base absolute flex flex-col top-0 left-0 w-full h-full overflow-y-scroll">
                 {{products}}
             </div>
         </div>
     </div>
     <div class="flex flex-col gap-1 flex-shrink-0 h-fit">
-        <p>
+        <p class="text-xl md:text-base">
             Total: <span id="cart-total" class="font-bold">{{total}}</span>€
         </p>
-        <div class="flex items-center justify-center w-full py-7 px-12 bg-micromania-blue hover:cursor-pointer hover:bg-micromania-darkblue text-white text-center text-nowrap whitespace-nowrap rounded-md">
+        <div class="flex items-center justify-center text-lg md:text-base w-full py-7 px-12 bg-micromania-blue hover:cursor-pointer hover:bg-micromania-darkblue text-white text-center text-nowrap whitespace-nowrap rounded-md">
             Finaliser ma commande
         </div>
     </div>
