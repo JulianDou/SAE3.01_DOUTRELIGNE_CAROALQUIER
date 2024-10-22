@@ -180,6 +180,11 @@ C.handler_clickOnPage = async function(ev){
                 data = await ProductData.fetchByOption(product_id, option_id);
 
                 CartData.add(data.id, data.id_options, data.name, data.short_name, data.price, data.image, data.retailer, 1);
+                
+                let count = CartData.count();
+                document.querySelector("#cart-notification").classList.remove("hidden");
+                document.querySelector("#cart-notification").innerHTML = count;
+                
                 break;
 
             case "cart-increase":
@@ -216,6 +221,7 @@ C.handler_clickOnPage = async function(ev){
 
                     let counter = document.querySelector("#cart-counter");
                     counter.innerHTML = CartData.count();
+                    document.querySelector("#cart-notification").innerHTML = CartData.count();
                 }
 
                 total = CartData.total();
@@ -236,8 +242,13 @@ C.handler_clickOnPage = async function(ev){
                 total = CartData.total();
                 document.querySelector("#cart-total").innerHTML = total;
 
+                if (total == 0){
+                    document.querySelector("#cart-notification").classList.add("hidden");
+                }
+
                 let counter = document.querySelector("#cart-counter");
                 counter.innerHTML = CartData.count();
+                document.querySelector("#cart-notification").innerHTML = CartData.count();
 
                 break;
 
