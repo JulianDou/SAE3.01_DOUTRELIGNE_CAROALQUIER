@@ -40,4 +40,16 @@ ProductData.fetchByCategory = async function(categoryid){
     return data==false ? fakeProducts : data;
 }
 
+ProductData.fetchByOption = async function(id, optionid){
+    let data = "";
+    if (optionid == undefined){
+        data = await ProductData.fetchOptions(id);
+    }
+    else {
+        data = await getRequest('options/'+ id + "?option=" + optionid);
+    }
+    data = data[0];
+    return data==false ? fakeProducts : data;
+}
+
 export {ProductData};
