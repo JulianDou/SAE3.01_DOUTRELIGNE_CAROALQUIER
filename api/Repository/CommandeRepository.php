@@ -50,8 +50,8 @@ class CommandeRepository extends EntityRepository {
         foreach($answerProduits as $obj){
             $produit = [
                 'id_produits' => $obj->id_produits,
-                'quantite' => $obj->quantite,
-                'prix' => $obj->prix
+                'quantity' => $obj->quantite,
+                'price' => $obj->prix
             ];
             array_push($produits, $produit);
         }
@@ -73,10 +73,21 @@ class CommandeRepository extends EntityRepository {
             $p->setIdClients($obj->id_clients);
             $p->setDateCommande($obj->date_commande);
             $p->setStatut($obj->statut);
+
+            // Retrieve client information
+            $requeteClient = $this->cnx->prepare("select nom, email from Clients where id_clients=:value");
+            $requeteClient->bindParam(':value', $obj->id_clients);
+            $requeteClient->execute();
+            $client = $requeteClient->fetch(PDO::FETCH_OBJ);
+
+            if ($client) {
+                $p->setClientNom($client->nom);
+                $p->setClientEmail($client->email);
+            }
+
             array_push($res, $p);
         }
 
-        $produits = [];
         foreach($res as $commande){
             $requeteProduits = $this->cnx->prepare("select * from Commandes_Produits where id_commandes=:value");
             $idCommande = $commande->getId();
@@ -84,11 +95,13 @@ class CommandeRepository extends EntityRepository {
             $requeteProduits->execute();
             $answerProduits = $requeteProduits->fetchAll(PDO::FETCH_OBJ);
 
+            $produits = [];
             foreach($answerProduits as $obj){
                 $produit = [
                     'id_produits' => $obj->id_produits,
-                    'quantite' => $obj->quantite,
-                    'prix' => $obj->prix
+                    'quantity' => $obj->quantite,
+                    'price' => $obj->prix,
+                    'id_options' => $obj->id_options
                 ];
                 array_push($produits, $produit);
             }
