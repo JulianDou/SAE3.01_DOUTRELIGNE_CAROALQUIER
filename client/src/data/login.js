@@ -36,6 +36,19 @@ LoginData.logout = async function(){
     }
 };
 
+// LoginData.signup fait une requête d'inscription à l'API.
+// On renvoie les données obtenues ;
+// Attention, il faudra faire le tri au cas où la requête échoue (signup ne renvoie rien).
+LoginData.signup = async function(email, password, name){
+    let data = new FormData();
+    data.append('email', email);
+    data.append('password', password);
+    data.append('name', name);
+
+    let response = await postRequest('clients/signup', data);
+    return response;
+};
+
 // LoginData.save enregistre les données de l'utilisateur connecté.
 // On part du principe qu'on ne le fait qu'à partir de données que le serveur nous a fourni,
 // et que celles-ci sont bien formatées.

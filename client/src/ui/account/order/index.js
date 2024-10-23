@@ -43,7 +43,7 @@ let orderView = {
         }
 
         html = html.replace("{{total}}", total);
-        html = html.replaceAll("{{products}}", products);
+        html = html.replace("{{product_list}}", products);
 
         return html;
     }

@@ -7,7 +7,7 @@
         <p class="font-semibold text-micromania-blue">Statut : <span id="order-status" class="font-normal text-black">{{order_status}}</span></p>
         <div class="flex flex-col gap-2">
             <p class="font-semibold text-micromania-blue">Total de la commande :</p>
-            <p id="order-total" class="text-2xl">{{total}}</p>
+            <p><span id="order-total" class="text-2xl">{{total}}</span>€</p>
         </div>
         <div class="flex flex-col justify-end h-full">
             <p class="text-generic-grey"></p>

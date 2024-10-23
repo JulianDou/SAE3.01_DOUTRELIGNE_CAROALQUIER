@@ -298,10 +298,46 @@ C.handler_clickOnSidepanel = async function(ev) {
                     LoginData.save(logindata);
                     document.querySelector("#login-message").innerHTML = "La connexion a réussi. Vous pouvez fermer cette fenêtre.";
                     document.querySelector("#login-submit").remove();
+                    document.querySelector("#login-switch").remove();
                 } else {
                     document.querySelector("#login-message").innerHTML = "La connexion a échoué. Vérifiez votre mot de passe/email ?";
                 }
                 break;
+
+            case "signup-submit":
+                let signupPassword = document.querySelector("#signup-password").value;
+                let signupPasswordConfirm = document.querySelector("#signup-password-confirm").value;
+
+                if (signupPassword == signupPasswordConfirm){
+
+                    let signupEmail = document.querySelector("#signup-email").value;
+                    let signupName = document.querySelector("#signup-name").value;                
+                    let signupdata = await LoginData.signup(signupEmail, signupPassword, signupName);
+
+                    if (Array.from(signupdata)[0] == "{") {
+                        
+                        signupdata = JSON.parse(signupdata);
+                        LoginData.save(signupdata);
+                        document.querySelector("#signup-message").innerHTML = "L'inscription a réussi. Vous pouvez fermer cette fenêtre.";
+                        document.querySelector("#signup-submit").remove();
+                        document.querySelector("#signup-switch").remove();
+
+                    } else {
+                        document.querySelector("#signup-message").innerHTML = "L'inscription a échoué. Veuillez réessayer.";
+                    }
+                } else {
+                    document.querySelector("#signup-message").innerHTML = "Les mots de passe ne correspondent pas.";
+                }
+                break;
+            
+            case "login-switch":
+                document.querySelector("#login").classList.add("hidden");
+                document.querySelector("#signup").classList.remove("hidden");
+                break;
+
+            case "signup-switch":
+                document.querySelector("#signup").classList.add("hidden");
+                document.querySelector("#login").classList.remove("hidden");
         }
     }
 }
