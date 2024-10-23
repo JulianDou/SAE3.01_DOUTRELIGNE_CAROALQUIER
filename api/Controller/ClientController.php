@@ -42,11 +42,13 @@ class ClientController extends Controller
 
         $this->clients->save($client);
 
-        // Set session cookie
-        session_start();
-        $_SESSION['client_id'] = $client->getId();
-        
-        return true;
+        // Set session cookie 🍪
+        session_regenerate_id(true);
+        $_SESSION['client'] = $client;
+        return json_encode([
+            'name' => $client->getName(),
+            'email' => $client->getEmail()
+        ]);
     }
 
     private function processSignInRequest(HttpRequest $request)
@@ -63,18 +65,25 @@ class ClientController extends Controller
 
         if (password_verify($password, $client->getPassword())) {
             // Set session cookie
-            session_start();
-            $_SESSION['client_id'] = $client->getId();
-
-            return true;
+            $_SESSION['client'] = $client;
+            return json_encode([
+                'name' => $client->getName(),
+                'email' => $client->getEmail()
+            ]);
         }
         return "Mot de passe incorrect";
     }
 
     private function processSignoutRequest(HttpRequest $request)
     {
-        session_start();
         session_destroy();
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+            );
+        }
         return true;
     }
 
@@ -108,10 +117,7 @@ class ClientController extends Controller
         }
         if ($id == "signout") {
             return $this->processSignoutRequest($request);
-        }
-
-
-        {
+        } {
             $json = $request->getJson();
             $obj = json_decode($json);
             $p = new Client(0); // 0 is a symbolic and temporary value since the product does not have a real id yet.

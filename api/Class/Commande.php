@@ -18,13 +18,15 @@ class Commande implements JsonSerializable {
     private string $client_email; // email du client
 
 
-
     
-
-    public function __construct(int $id_commandes){
+    public function __construct(int $id_commandes = 0, int $id_clients = 0, string $date_commande = '', string $statut = '', string $client_nom = '', string $client_email = '', array $produits = []){
         $this->id_commandes = $id_commandes;
-
-        
+        $this->id_clients = $id_clients;
+        $this->date_commande = $date_commande;
+        $this->statut = $statut;
+        $this->client_nom = $client_nom;
+        $this->client_email = $client_email;
+        $this->produits = $produits;
     }
 
      /**
@@ -83,7 +85,7 @@ class Commande implements JsonSerializable {
     /**
      * Get the value of id_clients
      */ 
-    public function getIdClients(): int
+    public function getIdClient(): int
     {
         return $this->id_clients;
     }
@@ -93,7 +95,7 @@ class Commande implements JsonSerializable {
      *
      * @return  self
      */ 
-    public function setIdClients(int $id_clients): self
+    public function setIdClient(int $id_clients): self
     {
         $this->id_clients = $id_clients;
         return $this;
@@ -160,7 +162,7 @@ class Commande implements JsonSerializable {
     /**
      * Get the value of client_nom
      */ 
-    public function getClientNom(): string
+    public function getClientName(): string
     {
         return $this->client_nom;
     }
@@ -170,7 +172,7 @@ class Commande implements JsonSerializable {
      *
      * @return  self
      */ 
-    public function setClientNom(string $client_nom): self
+    public function setClientName(string $client_nom): self
     {
         $this->client_nom = $client_nom;
         return $this;
@@ -194,4 +196,25 @@ class Commande implements JsonSerializable {
         $this->client_email = $client_email;
         return $this;
     }
+
+    /**
+     * Add a product to the order
+     *
+     * @param int $id_produits
+     * @param int $quantity
+     * @param float $price
+     * @param int $id_options
+     * @return self
+     */
+    public function addProduct(int $id_produits, int $quantity, float $price, int $id_options): self
+    {
+        $this->produits[] = [
+            'id_produits' => $id_produits,
+            'quantity' => $quantity,
+            'price' => $price,
+            'id_options' => $id_options
+        ];
+        return $this;
+    }
+
 }

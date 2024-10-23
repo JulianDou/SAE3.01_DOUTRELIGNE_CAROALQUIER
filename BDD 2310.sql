@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : lun. 21 oct. 2024 à 09:18
+-- Généré le : mer. 23 oct. 2024 à 15:15
 -- Version du serveur : 10.11.6-MariaDB-0+deb12u1
 -- Version de PHP : 8.1.29
 
@@ -74,7 +74,9 @@ CREATE TABLE `Clients` (
 --
 
 INSERT INTO `Clients` (`id_clients`, `email`, `mot_de_passe`, `nom`) VALUES
-(1, 'julian.dou@gmail.com', 'micromania2024', 'Julian');
+(1, 'julian.dou@gmail.com', 'micromania2024', 'Julian'),
+(13, 'testmdail', '$2y$10$YQq5Y8XWSX8YwFw8q.CJBOTBF6U7H4zXVbWqws51wrZJAz0/HBbKC', 'Dydlan'),
+(14, 'email1', '$2y$10$j1GuCHr/InOBj4VqfpyES.5wXVyZ51cBfnpZzWqXwvjn7Q/YA2wKm', 'name1');
 
 -- --------------------------------------------------------
 
@@ -110,6 +112,14 @@ CREATE TABLE `Commandes` (
   `id_clients` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Déchargement des données de la table `Commandes`
+--
+
+INSERT INTO `Commandes` (`id_commandes`, `statut`, `date_commande`, `id_clients`) VALUES
+(1, 'disponible', '2024-10-21 09:35:57', 1),
+(2, 'en_cours', '2024-10-21 09:35:57', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -120,8 +130,17 @@ CREATE TABLE `Commandes_Produits` (
   `id_produits` int(11) NOT NULL,
   `id_commandes` int(11) NOT NULL,
   `quantite` smallint(6) NOT NULL,
-  `prix` decimal(10,2) NOT NULL
+  `prix` decimal(10,2) NOT NULL,
+  `id_options` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `Commandes_Produits`
+--
+
+INSERT INTO `Commandes_Produits` (`id_produits`, `id_commandes`, `quantite`, `prix`, `id_options`) VALUES
+(4, 2, 2, '59.99', 5),
+(6, 1, 3, '19.99', 9);
 
 -- --------------------------------------------------------
 
@@ -245,7 +264,8 @@ ALTER TABLE `Commandes`
 --
 ALTER TABLE `Commandes_Produits`
   ADD PRIMARY KEY (`id_produits`,`id_commandes`),
-  ADD KEY `id_commandes` (`id_commandes`);
+  ADD KEY `id_commandes` (`id_commandes`),
+  ADD KEY `Commandes_Produits_ibfk_3` (`id_options`);
 
 --
 -- Index pour la table `Options`
@@ -287,13 +307,13 @@ ALTER TABLE `Categories`
 -- AUTO_INCREMENT pour la table `Clients`
 --
 ALTER TABLE `Clients`
-  MODIFY `id_clients` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_clients` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `Commandes`
 --
 ALTER TABLE `Commandes`
-  MODIFY `id_commandes` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_commandes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `Options`
@@ -330,7 +350,8 @@ ALTER TABLE `Commandes`
 --
 ALTER TABLE `Commandes_Produits`
   ADD CONSTRAINT `Commandes_Produits_ibfk_1` FOREIGN KEY (`id_produits`) REFERENCES `Produits` (`id_produits`) ON DELETE CASCADE,
-  ADD CONSTRAINT `Commandes_Produits_ibfk_2` FOREIGN KEY (`id_commandes`) REFERENCES `Commandes` (`id_commandes`) ON DELETE CASCADE;
+  ADD CONSTRAINT `Commandes_Produits_ibfk_2` FOREIGN KEY (`id_commandes`) REFERENCES `Commandes` (`id_commandes`) ON DELETE CASCADE,
+  ADD CONSTRAINT `Commandes_Produits_ibfk_3` FOREIGN KEY (`id_options`) REFERENCES `Options` (`id_options`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `Produits`
@@ -345,10 +366,6 @@ ALTER TABLE `Produits_Options`
   ADD CONSTRAINT `Produits_Options_ibfk_1` FOREIGN KEY (`id_produits`) REFERENCES `Produits` (`id_produits`) ON DELETE CASCADE,
   ADD CONSTRAINT `Produits_Options_ibfk_2` FOREIGN KEY (`id_options`) REFERENCES `Options` (`id_options`) ON DELETE CASCADE;
 COMMIT;
-
-ALTER TABLE `Commandes_Produits`
-  ADD COLUMN `id_options` int(11) NOT NULL,
-  ADD CONSTRAINT `Commandes_Produits_ibfk_3` FOREIGN KEY (`id_options`) REFERENCES `Options` (`id_options`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

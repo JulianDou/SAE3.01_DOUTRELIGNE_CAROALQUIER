@@ -13,6 +13,16 @@ class Client implements JsonSerializable {
     private string $nom; // nom du client
     private string $email; // email du client
     private string $mot_de_passe; // mot de passe du client
+    private bool $isAuth = false; // indique si le client est connecté
+
+    public function isAuth(): bool {
+        return $this->isAuth;
+    }
+
+    public function setAuth(bool $isAuth): self {
+        $this->isAuth = $isAuth;
+        return $this;
+    }
 
     public function __construct(int $id_clients, string $nom = '', string $email = '', string $mot_de_passe = ''){
         $this->id_clients = $id_clients;

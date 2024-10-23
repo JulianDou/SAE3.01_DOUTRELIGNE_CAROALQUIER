@@ -15,6 +15,27 @@ class HttpRequest {
     private string $id = ""; // identifiant de la ressource (pas forcément défini, notament en POST ou en GET)
     private ?array $params = null; // éventuels paramètres de la requête (on a bien dit "éventuel")
     private string $json = ""; // données json transmise par le client (seulement en cas de requête en POST, PATCH ou PUT)
+    private bool $isAuth = false; // indique si la requête est authentifiée
+
+    /**
+     * Check if the request is authenticated
+     */
+    public function isAuth(): bool
+    {
+        return $this->isAuth;
+    }
+
+    /**
+     * Set the value of isAuth
+     *
+     * @return  self
+     */
+    public function setAuth(bool $isAuth): self
+    {
+        $this->isAuth = $isAuth;
+
+        return $this;
+    }
 
     /**
      *  __construct

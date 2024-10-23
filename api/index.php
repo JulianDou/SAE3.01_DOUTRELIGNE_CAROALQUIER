@@ -6,6 +6,7 @@ require_once "Controller/OptionController.php";
 require_once "Controller/CommandeController.php";
 require_once "Class/HttpRequest.php";
 
+session_start();
 
 /** IMPORTANT
  * 
