@@ -1,5 +1,5 @@
 import {getRequest} from '../lib/api-request.js';
-
+import {postRequest} from '../lib/api-request.js';
 
 let CartData = {};
 
@@ -118,6 +118,41 @@ CartData.total = function(){
 // CartData.count renvoie le nombre total de produits (individuels) dans le panier.
 CartData.count = function(){
     return CartContent.length;
+}
+
+
+// CartData.submit envoie le panier à l'API.
+// On part du principe que l'utilisateur est connecté.
+// Attention, CartData.submit vide le panier.
+CartData.submit = async function(){    
+    if (CartContent.length > 0) {
+        let data = new FormData();
+        let items = CartContent.map(item => ({
+            id_produits: item.id,
+            id_options: item.id_options,
+            quantity: item.quantite,
+            price: item.price
+        }));
+        data.append('items', JSON.stringify(items));
+
+        let success = false;
+        let response = await postRequest('commandes', data);
+        if (response){
+            CartData.clear();
+            success = true;
+        }
+        return success;
+    } else {
+        return false;
+    }
+}
+
+CartData.getOrder = async function(){
+    let data = getRequest("commandes/me");
+    if (!data) {
+        return [];
+    }
+    return data;
 }
 
 

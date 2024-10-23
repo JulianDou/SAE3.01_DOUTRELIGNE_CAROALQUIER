@@ -713,6 +713,18 @@ video {
   width: 100vw;
 }
 
+.min-w-44{
+  min-width: 11rem;
+}
+
+.min-w-48{
+  min-width: 12rem;
+}
+
+.min-w-52{
+  min-width: 13rem;
+}
+
 .max-w-full{
   max-width: 100%;
 }
@@ -807,8 +819,16 @@ video {
   gap: 0.25rem;
 }
 
+.gap-12{
+  gap: 3rem;
+}
+
 .gap-2{
   gap: 0.5rem;
+}
+
+.gap-20{
+  gap: 5rem;
 }
 
 .gap-3{
@@ -829,14 +849,6 @@ video {
 
 .gap-7{
   gap: 1.75rem;
-}
-
-.gap-20{
-  gap: 5rem;
-}
-
-.gap-12{
-  gap: 3rem;
 }
 
 .self-stretch{
@@ -879,8 +891,8 @@ video {
   border-radius: 0.375rem;
 }
 
-.rounded-sm{
-  border-radius: 0.125rem;
+.border{
+  border-width: 1px;
 }
 
 .border-2{
@@ -889,10 +901,6 @@ video {
 
 .border-4{
   border-width: 4px;
-}
-
-.border{
-  border-width: 1px;
 }
 
 .border-micromania-blue{
@@ -958,12 +966,16 @@ video {
   padding: 0.25rem;
 }
 
+.p-2{
+  padding: 0.5rem;
+}
+
 .p-5{
   padding: 1.25rem;
 }
 
-.p-2{
-  padding: 0.5rem;
+.p-3{
+  padding: 0.75rem;
 }
 
 .px-10{
@@ -1031,12 +1043,21 @@ video {
   padding-bottom: 1.75rem;
 }
 
+.px-20{
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
 .pl-1{
   padding-left: 0.25rem;
 }
 
 .pt-14{
   padding-top: 3.5rem;
+}
+
+.pt-16{
+  padding-top: 4rem;
 }
 
 .pt-6{
@@ -1092,6 +1113,15 @@ video {
   font-weight: 600;
 }
 
+.font-normal{
+  font-weight: 400;
+}
+
+.text-black{
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
 .text-generic-grey{
   --tw-text-opacity: 1;
   color: rgb(104 104 104 / var(--tw-text-opacity));
@@ -1105,11 +1135,6 @@ video {
 .text-white{
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.text-black{
-  --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
 .opacity-30{
@@ -1159,6 +1184,16 @@ video {
 .hover\:bg-micromania-darkblue:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(18 52 86 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-red-700:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(185 28 28 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-red-600:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
 }
 
 .hover\:text-micromania-darkblue:hover{

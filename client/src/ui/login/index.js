@@ -5,7 +5,7 @@ let LoginView = {
 
     render: function(target){
         // Send everything to the chosen target
-        document.querySelector(target).innerHTML += template;
+        document.querySelector(target).innerHTML = template;
     },
 
 }

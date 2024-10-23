@@ -9,10 +9,11 @@
     </div>
     <p>Connectez-vous à votre compte Micromania</p>
     <form method="post" class="flex flex-col gap-5">
-        <input type="email" name="email" id="login-email" placeholder="example@micromania.fr" class="p-2 border rounded">
-        <input type="password" name="password" id="login-password" placeholder="Mot de passe" class="p-2 border rounded">
+        <input type="email" autocomplete="on" name="email" id="login-email" placeholder="example@micromania.fr" class="p-2 border rounded">
+        <input type="password" autocomplete="on" name="password" id="login-password" placeholder="Mot de passe" class="p-2 border rounded">
     </form>
-    <div class="flex items-center justify-center text-lg md:text-base w-full py-7 px-12 bg-micromania-blue hover:cursor-pointer hover:bg-micromania-darkblue text-white text-center text-nowrap whitespace-nowrap rounded-md">
+    <p id="login-message" class="text-generic-grey"></p>
+    <div id="login-submit" class="flex items-center justify-center text-lg md:text-base w-full py-7 px-12 bg-micromania-blue hover:cursor-pointer hover:bg-micromania-darkblue text-white text-center text-nowrap whitespace-nowrap rounded-md">
         Se connecter
     </div>
 </div>

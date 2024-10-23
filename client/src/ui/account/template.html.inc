@@ -1,9 +1,9 @@
-<div class="flex flex-col gap-20">
+<div class="flex flex-col gap-20 pt-16 px-20">
     <p class="text-micromania-blue text-xl font-semibold">
-        Bonjour <span id="username" class="text-black">{{client_name}}</span>
+        Bonjour <span id="username" class="text-black">{{name}}</span>
     </p>
     <div class="flex w-full gap-20">
-        <div class="flex flex-col gap-12 self-stretch">
+        <div class="flex flex-col gap-12 w-full">
             <p class="text-micromania-blue text-xl font-semibold">Mes commandes</p>
             <div class="flex flex-col gap-6">
                 <p class="text-micromania-blue text-lg">
@@ -17,17 +17,15 @@
                 <p class="text-micromania-blue text-lg">
                     Plus tôt
                 </p>
-                <div id="orders" class="flex flex-col">
+                <div id="orders" class="flex flex-col gap-3">
                     {{orders}}
                 </div>
             </div>
         </div>
-        <div class="flex flex-col gap-12 self-stretch max-h-96">
+        <div class="flex flex-col gap-12 w-full max-h-96">
             <p class="text-micromania-blue text-xl font-semibold">Mon panier</p>
-            <div id="cart" class="relative flex h-full overflow-hidden w-full">
-                <div class="text-xl md:text-base absolute flex flex-col top-0 left-0 w-full h-full overflow-y-scroll">
-                    {{products}}
-                </div>
+            <div id="account-cart" class="text-xl md:text-base flex flex-col w-full gap-3">
+                {{products}}
             </div>
         </div>
     </div>

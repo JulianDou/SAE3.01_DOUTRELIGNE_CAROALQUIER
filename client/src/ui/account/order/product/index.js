@@ -1,4 +1,4 @@
-import { genericRenderer } from "../../../lib/utils.js"; 
+import { genericRenderer } from "../../../../lib/utils.js"; 
 
 const templateFile = await fetch("src/ui/account/order/product/template.html.inc");
 const template = await templateFile.text();

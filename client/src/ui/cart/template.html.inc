@@ -9,16 +9,17 @@
             </svg>
         </div>
         <div class="relative flex h-full overflow-hidden w-full">
-            <div class="text-xl md:text-base absolute flex flex-col top-0 left-0 w-full h-full overflow-y-scroll">
+            <div class="text-xl md:text-base absolute flex flex-col top-0 left-0 w-full h-full overflow-y-scroll gap-3">
                 {{products}}
             </div>
         </div>
     </div>
     <div class="flex flex-col gap-1 flex-shrink-0 h-fit">
+        <p id="cart-message" class="text-generic-grey"></p>
         <p class="text-xl md:text-base">
             Total: <span id="cart-total" class="font-bold">{{total}}</span>€
         </p>
-        <div class="flex items-center justify-center text-lg md:text-base w-full py-7 px-12 bg-micromania-blue hover:cursor-pointer hover:bg-micromania-darkblue text-white text-center text-nowrap whitespace-nowrap rounded-md">
+        <div id="cart-submit" class="flex items-center justify-center text-lg md:text-base w-full py-7 px-12 bg-micromania-blue hover:cursor-pointer hover:bg-micromania-darkblue text-white text-center text-nowrap whitespace-nowrap rounded-md">
             Finaliser ma commande
         </div>
     </div>
