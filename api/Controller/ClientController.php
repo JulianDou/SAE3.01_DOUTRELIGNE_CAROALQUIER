@@ -16,10 +16,75 @@ class ClientController extends Controller
         $this->clients = new ClientRepository();
     }
 
+    private function processSignUpRequest(HttpRequest $request)
+    {
+        $email = $request->getParam('email');
+        $password = $request->getParam('password');
+
+        $client = $this->clients->findByEmail($email);
+
+        if ($client) {
+            return false;
+        }
+
+        $hash_password = password_hash($password, PASSWORD_DEFAULT);
+
+        $client = new Client(0); // Assuming 0 is a placeholder for the client ID
+
+        $clientdata = [];
+        $clientdata['email'] = $email;
+        $clientdata['password'] = $hash_password;
+        $clientdata['name'] = $request->getParam('name');
+
+        $client->setEmail($clientdata['email']);
+        $client->setPassword($clientdata['password']);
+        $client->setName($clientdata['name']);
+
+        $this->clients->save($client);
+
+        // Set session cookie
+        session_start();
+        $_SESSION['client_id'] = $client->getId();
+        
+        return true;
+    }
+
+    private function processSignInRequest(HttpRequest $request)
+    {
+        $email = $request->getParam('email');
+        $password = $request->getParam('password');
+
+        $client = $this->clients->findByEmail($email);
+
+        if (!$client) {
+
+            return "Ce compte n'existe pas";
+        }
+
+        if (password_verify($password, $client->getPassword())) {
+            // Set session cookie
+            session_start();
+            $_SESSION['client_id'] = $client->getId();
+
+            return true;
+        }
+        return "Mot de passe incorrect";
+    }
+
+    private function processSignoutRequest(HttpRequest $request)
+    {
+        session_start();
+        session_destroy();
+        return true;
+    }
 
     protected function processGetRequest(HttpRequest $request)
     {
         $id = $request->getId("id");
+
+
+
+
         if ($id) {
             // URI is .../products/{id}
             $p = $this->clients->find($id);
@@ -31,13 +96,30 @@ class ClientController extends Controller
 
     protected function processPostRequest(HttpRequest $request)
     {
-        $json = $request->getJson();
-        $obj = json_decode($json);
-        $p = new Client(0); // 0 is a symbolic and temporary value since the product does not have a real id yet.
-        $p->setName($obj->name);
-        $p->setEmail($obj->email);
-        $p->setPassword($obj->password);
-        $ok = $this->clients->save($p);
-        return $ok ? $p : false;
+        $id = $request->getId("id");
+
+
+
+        if ($id == "signup") {
+            return $this->processSignUpRequest($request);
+        }
+        if ($id == "signin") {
+            return $this->processSigninRequest($request);
+        }
+        if ($id == "signout") {
+            return $this->processSignoutRequest($request);
+        }
+
+
+        {
+            $json = $request->getJson();
+            $obj = json_decode($json);
+            $p = new Client(0); // 0 is a symbolic and temporary value since the product does not have a real id yet.
+            $p->setName($obj->name);
+            $p->setEmail($obj->email);
+            $p->setPassword($obj->password);
+            $ok = $this->clients->save($p);
+            return $ok ? $p : false;
+        }
     }
 }

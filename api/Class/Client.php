@@ -1,12 +1,12 @@
 <?php
 /**
- *  Class Basket
+ *  Class Client
  * 
- *  Représente un produit avec uniquement 3 propriétés (id, name, category)
+ *  Représente un client avec des propriétés (id, nom, email, mot_de_passe)
  * 
  *  Implémente l'interface JsonSerializable 
  *  qui oblige à définir une méthode jsonSerialize. Cette méthode permet de dire comment les objets
- *  de la classe Basket doivent être converti en JSON. Voire la méthode pour plus de détails.
+ *  de la classe Client doivent être converti en JSON. Voire la méthode pour plus de détails.
  */
 class Client implements JsonSerializable {
     private int $id_clients; // id du client
@@ -14,139 +14,57 @@ class Client implements JsonSerializable {
     private string $email; // email du client
     private string $mot_de_passe; // mot de passe du client
 
-
-    public function __construct(int $id_clients){
+    public function __construct(int $id_clients, string $nom = '', string $email = '', string $mot_de_passe = ''){
         $this->id_clients = $id_clients;
-        
+        $this->nom = $nom;
+        $this->email = $email;
+        $this->mot_de_passe = $mot_de_passe;
     }
 
-     /**
-     *  Define how to convert/serialize a Basket to a JSON format
-     *  This method will be automatically invoked by json_encode when apply to a Basket
-     * 
-     *  En français : On sait qu'on aura besoin de convertir des Basket en JSON pour les
-     *  envoyer au client. La fonction json_encode sait comment convertir en JSON des données
-     *  de type élémentaire. A savoir : des chaînes de caractères, des nombres, des booléens
-     *  des tableaux ou des objets standards (stdClass). 
-     *  Mais json_encode ne saura pas convertir un objet de type Basket dont les propriétés sont
-     *  privées de surcroit. Sauf si on définit la méthode JsonSerialize qui doit retourner une
-     *  représentation d'un Basket dans un format que json_encode sait convertir (ici un tableau associatif)
-     * 
-     *  Le fait que Basket "implémente" l'interface JsonSerializable oblige à définir la méthode
-     *  JsonSerialize et permet à json_encode de savoir comment convertir un Basket en JSON.
-     * 
-     *  Parenthèse sur les "interfaces" : Une interface est une classe (abstraite en générale) qui
-     *  regroupe un ensemble de méthodes. On dit que "une classe implémente une interface" au lieu de dire 
-     *  que "une classe hérite d'une autre" uniquement parce qu'il n'y a pas de propriétés dans une "classe interface".
-     * 
-     *  Voir aussi : https://www.php.net/manual/en/class.jsonserializable.php
-     *  
-     */
+    public function JsonSerialize(): mixed {
+        $json = [
+            "id" => $this->id_clients,
+            "name" => $this->nom,
+            "email" => $this->email,
+            "password" => $this->mot_de_passe
+        ];
 
+        return $json;
+    }
 
-//      Format visé pour la récupération  :
+    public function setId(int $id): self {
+        $this->id_clients = $id;
+        return $this;
+    }
 
-// {
-//     "id_product":1
-//     "options": [
-//         {
-//             "id_options: 3,
-//             "name":"Manette Xbox",
-//             "category":1,
-//             "price":59.99,
-//             "description":"Une superbe manette",
-//             "image":"https:\/\/img-prod-cms-rt-microsoft-com.akamaized.net\/cms\/api\/am\/imageFileData\/RE4FlSK?ver=3eb6",
-//             "revendeur":"Microsoft"
-//         },
-//         {
-//             "id_options: 4,
-//             "name":"Manette Xbox Bleu",
-//             "category":1,
-//             "price":69.99,
-//             "description":"Une superbe manette",
-//             "image":"https:\/\/img-prod-cms-rt-microsoft-com.akamaized.net\/cms\/api\/am\/imageFileData\/RE4FlSK?ver=3eb6",
-//             "revendeur":"Microsoft"
-//         }
-//     ]
-// }
-
-public function JsonSerialize(): mixed {
-    $json = [
-        "id" => $this->id_clients,
-        "name" => $this->nom,
-        "email" => $this->email,
-        "password" => $this->mot_de_passe
-    ];
-
-    return $json;
-}
-
-    /**
-     * Get the value of id
-     */ 
-    public function getId(): int
-    {
+    public function getId(): int {
         return $this->id_clients;
     }
 
-    /**
-     * Get the value of name
-     */ 
-    public function getName()
-    {
+    public function getName(): string {
         return $this->nom;
     }
 
-    /**
-     * Set the value of name
-     *
-     * @return  self
-     */ 
-    public function setName($name): self
-    {
+    public function setName(string $name): self {
         $this->nom = $name;
         return $this;
     }
 
-    /**
-     * Get the value of password
-     */
-
-    public function getPassword()
-    {
+    public function getPassword(): string {
         return $this->mot_de_passe;
     }
 
-    /**
-     * Set the value of password
-     *
-     * @return  self
-     */
-    public function setPassword($password): self
-    {
-        $this->mot_de_passe = $password;
+    public function setPassword(string $mot_de_passe): self {
+        $this->mot_de_passe = $mot_de_passe;
         return $this;
     }
 
-    /**
-     * Get the value of email
-     */
-    public function getEmail()
-    {
+    public function getEmail(): string {
         return $this->email;
     }
 
-    /**
-     * Set the value of email
-     *
-     * @return  self
-     */
-    public function setEmail($email): self
-    {
+    public function setEmail(string $email): self {
         $this->email = $email;
         return $this;
     }
-
-
-
 }
