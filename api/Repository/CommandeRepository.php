@@ -28,8 +28,6 @@ class CommandeRepository extends EntityRepository {
     public function findByUser() {
         $idClients = $_SESSION['client']->getId();
 
-        // echo "Votre identifiant est".$idClients;
-
         $requete = $this->cnx->prepare("select * from Commandes where id_clients=:value");
         $requete->bindParam(':value', $idClients);
         $requete->execute();
@@ -46,7 +44,14 @@ class CommandeRepository extends EntityRepository {
         }
 
         foreach($res as $commande){
-            $requeteProduits = $this->cnx->prepare("select * from Commandes_Produits where id_commandes=:value");
+            $requeteProduits = $this->cnx->prepare("
+                SELECT cp.*, p.nom, p.revendeur, po.image, o.nom_court 
+                FROM Commandes_Produits cp
+                JOIN Produits p ON cp.id_produits = p.id_produits
+                JOIN Produits_Options po ON cp.id_produits = po.id_produits AND cp.id_options = po.id_options
+                JOIN Options o ON cp.id_options = o.id_options
+                WHERE cp.id_commandes = :value
+            ");
             $idCommande = $commande->getId();
             $requeteProduits->bindParam(':value', $idCommande);
             $requeteProduits->execute();
@@ -58,7 +63,11 @@ class CommandeRepository extends EntityRepository {
                     'id_produits' => $obj->id_produits,
                     'quantity' => $obj->quantite,
                     'price' => $obj->prix,
-                    'id_options' => $obj->id_options
+                    'id_options' => $obj->id_options,
+                    'name' => $obj->nom,
+                    'retailer' => $obj->revendeur,
+                    'image' => $obj->image,
+                    'short_name' => $obj->nom_court
                 ];
                 array_push($produits, $produit);
             }
