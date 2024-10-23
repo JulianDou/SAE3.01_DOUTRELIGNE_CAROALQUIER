@@ -23,6 +23,7 @@ class ClientRepository extends EntityRepository {
         parent::__construct();
     }
 
+
     public function find($id): ?Client{
         $requete = $this->cnx->prepare("select * from Produits where id_clients=:value");
         $requete->bindParam(':value', $id);
@@ -36,7 +37,7 @@ class ClientRepository extends EntityRepository {
         $p->setEmail($answer->email);
         $p->setPassword($answer->password);
 
-
+        
         return $p;
     }
 
@@ -58,16 +59,33 @@ class ClientRepository extends EntityRepository {
         return $res;
     }
 
+    // Trouver le client avec son mail 
+    public function findByEmail($email) {
+        $requete = $this->cnx->prepare("select * from Clients where email=:value");
+        $requete->bindParam(':value', $email);
+        $requete->execute();
+        $answer = $requete->fetch(PDO::FETCH_OBJ);
+
+        if ($answer == false) return null;
+
+        $p = new Client($answer->id_clients);
+        $p->setName($answer->nom);
+        $p->setEmail($answer->email);
+        $p->setPassword($answer->mot_de_passe);
+
+        return $p;
+    } 
+
 
     public function save($client){
-        $requete = $this->cnx->prepare("insert into Clients (nom, email, password) values (:name, :email, :password)");
+        $requete = $this->cnx->prepare("insert into Clients (nom, email, mot_de_passe) values (:name, :email, :mot_de_passe)");
         $name = $client->getName();
         $email = $client->getEmail();
-        $password = $client->getPassword();
+        $mot_de_passe = $client->getPassword();
         
         $requete->bindParam(':name', $name);
         $requete->bindParam(':email', $email);
-        $requete->bindParam(':password', $password);
+        $requete->bindParam(':mot_de_passe', $mot_de_passe);
         $answer = $requete->execute(); // an insert query returns true or false. $answer is a boolean.
 
         if ($answer){
