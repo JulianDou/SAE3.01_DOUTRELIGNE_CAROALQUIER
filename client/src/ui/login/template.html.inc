@@ -1,4 +1,4 @@
-<div class="flex flex-col w-screen md:w-[32rem] h-full bg-white p-5 gap-5">
+<div class="flex flex-col w-screen md:w-[32rem] text-lg md:text-md h-full bg-white p-5 gap-5">
     <div class="flex justify-between">
         <p class="text-2xl md:text-xl font-bold">
             Connexion

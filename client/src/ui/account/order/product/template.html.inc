@@ -4,15 +4,15 @@
     </div>
     <div class="flex flex-col justify-between w-full">
         <div class="flex flex-col gap-1">
-            <p class="text-micromania-blue font-semibold">
+            <p class="text-micromania-blue font-semibold text-lg md:text-md">
                 {{name}} - {{short_name}}
             </p>
-            <p class="text-generic-grey">
+            <p class="text-generic-grey text-lg md:text-md">
                 {{retailer}}
             </p>
         </div>
         <div class="flex flex-col justify-end">
-            <p>Quantité : {{quantity}}</p>
+            <p class="text-lg md:text-md">Quantité : {{quantity}}</p>
         </div>
     </div>
 </div>

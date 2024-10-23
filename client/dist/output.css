@@ -775,6 +775,10 @@ video {
   flex-direction: column;
 }
 
+.flex-col-reverse{
+  flex-direction: column-reverse;
+}
+
 .flex-wrap{
   flex-wrap: wrap;
 }
@@ -845,6 +849,10 @@ video {
 
 .gap-7{
   gap: 1.75rem;
+}
+
+.gap-10{
+  gap: 2.5rem;
 }
 
 .self-stretch{
@@ -1280,6 +1288,14 @@ video {
     flex-wrap: wrap;
   }
 
+  .md\:gap-20{
+    gap: 5rem;
+  }
+
+  .md\:gap-12{
+    gap: 3rem;
+  }
+
   .md\:overflow-hidden{
     overflow: hidden;
   }
@@ -1314,6 +1330,11 @@ video {
     padding-bottom: 3.5rem;
   }
 
+  .md\:px-20{
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+
   .md\:text-start{
     text-align: start;
   }
@@ -1335,6 +1356,11 @@ video {
 
   .md\:text-xl{
     font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  .md\:text-lg{
+    font-size: 1.125rem;
     line-height: 1.75rem;
   }
 }
