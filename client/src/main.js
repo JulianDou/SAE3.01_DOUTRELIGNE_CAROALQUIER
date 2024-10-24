@@ -136,10 +136,10 @@ C.handler_clickOnMain = async function(ev) {
                 product_id = ev.target.dataset.productid;
                 option_id = ev.target.dataset.optionid;
                 data = await ProductData.fetchByOption(product_id, option_id);
-                CartData.add(data.id, data.id_options, data.name, data.short_name, data.price, data.image, data.retailer, 1);
+                CartData.add(undefined, undefined, data);
                 let count = CartData.count();
                 document.querySelector("#cart-notification").classList.remove("hidden");
-                document.querySelector("#cart-notification").innerHTML = count;
+                document.querySelector("#cart-notification").innerHTML = count;           
                 break;
 
             case "nav-category":
@@ -252,6 +252,9 @@ C.handler_clickOnSidepanel = async function(ev) {
     let product_id = ev.target.dataset.productid;
     let option_id = ev.target.dataset.optionid;
 
+    let stockmessage = document.querySelector("#cart-stockmessage-" + product_id + "-" + option_id);
+    let stockleft = document.querySelector("#cart-stockleft-" + product_id + "-" + option_id);
+
     if (element_id != "" && element_id != undefined) {
         switch (element_id) {
             case "cart-close":
@@ -260,13 +263,32 @@ C.handler_clickOnSidepanel = async function(ev) {
                 break;
 
             case "cart-increase":
-                CartData.add(product_id, option_id);
-                CartView.updateItem(product_id, option_id, 1, CartData.count(), CartData.total());
+                if (C.compareStock(product_id, option_id)){
+                    CartData.add(product_id, option_id);
+                    CartView.updateItem(product_id, option_id, 1, CartData.count(), CartData.total());
+
+                    if (C.checkStock(product_id, option_id) <= 5){
+                        stockmessage.classList.remove("hidden");
+                        stockleft.innerHTML = C.checkStock(product_id, option_id);
+                    }
+                    else {
+                        stockmessage.classList.add("hidden");
+                    }
+                }
                 break;
 
             case "cart-decrease":
                 CartData.remove(product_id, option_id);
                 let remove = CartView.updateItem(product_id, option_id, -1, CartData.count(),CartData.total());
+
+                if (C.checkStock(product_id, option_id) <= 5){
+                    stockmessage.classList.remove("hidden");
+                    stockleft.innerHTML = C.checkStock(product_id, option_id);
+                }
+                else {
+                    stockmessage.classList.add("hidden");
+                }
+
                 if (remove){
                     CartData.delete(product_id, option_id);
                     CartView.removeItem(product_id, option_id, CartData.count(), CartData.total());
@@ -339,6 +361,29 @@ C.handler_clickOnSidepanel = async function(ev) {
                 document.querySelector("#signup").classList.add("hidden");
                 document.querySelector("#login").classList.remove("hidden");
         }
+    }
+}
+
+// checkStock renvoie le stock restant en fonction de la quantité qu'on souhaite
+// commander d'un produit.
+C.checkStock = function(id_produits, id_options){
+    let stock = CartData.read(id_produits, id_options)[0].stock;
+    let quantite = CartData.read(id_produits, id_options)[0].quantite;
+
+    return stock - quantite;
+}
+
+// compareStock renvoie true si le stock est suffisant pour ajouter un produit.
+C.compareStock = function(id_produits, id_options){
+    let stock = CartData.read(id_produits, id_options)[0].stock;
+    let quantite = CartData.read(id_produits, id_options)[0].quantite + 1;
+    if (stock - quantite < 0){
+        // le stock est insuffisant
+        return false;
+    }
+    else {
+        // le stock est suffisant
+        return true;
     }
 }
 

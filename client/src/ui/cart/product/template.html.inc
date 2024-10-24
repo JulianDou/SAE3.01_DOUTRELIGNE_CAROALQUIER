@@ -19,10 +19,13 @@
                 <p class="text-2xl font-bold">{{price}}</p>
                 <p class="text-xl font-medium">€</p>
             </div>
-            <div class="flex gap-4 items-center">
-                <p id="cart-decrease" data-productid="{{id}}" data-optionid="{{id_options}}" class="flex h-5 w-5 items-center justify-center rounded text-white font-bold hover:cursor-pointer bg-micromania-blue select-none">-</p>                
-                <p id="cart-amount-{{id}}-{{id_options}}">{{quantite}}</p>
-                <p id="cart-increase" data-productid="{{id}}" data-optionid="{{id_options}}" class="flex h-5 w-5 items-center justify-center rounded text-white font-bold hover:cursor-pointer bg-micromania-blue select-none">+</p>
+            <div class="flex gap-4">
+                <p id="cart-stockmessage-{{id}}-{{id_options}}" class="text-generic-grey {{stockhidden}}"><span id="cart-stockleft-{{id}}-{{id_options}}">{{stockleft}}</span> restants</p>
+                <div class="flex gap-4 items-center">
+                    <p id="cart-decrease" data-productid="{{id}}" data-optionid="{{id_options}}" class="flex h-5 w-5 items-center justify-center rounded text-white font-bold hover:cursor-pointer bg-micromania-blue select-none">-</p>                
+                    <p id="cart-amount-{{id}}-{{id_options}}">{{quantite}}</p>
+                    <p id="cart-increase" data-productid="{{id}}" data-optionid="{{id_options}}" class="flex h-5 w-5 items-center justify-center rounded text-white font-bold hover:cursor-pointer bg-micromania-blue select-none">+</p>
+                </div>
             </div>
         </div>
     </div>

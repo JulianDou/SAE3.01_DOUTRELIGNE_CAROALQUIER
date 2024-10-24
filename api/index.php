@@ -4,6 +4,7 @@ require_once "Controller/CategoryController.php";
 require_once "Controller/ClientController.php";
 require_once "Controller/OptionController.php";
 require_once "Controller/CommandeController.php";
+require_once "Controller/AdminController.php";
 require_once "Class/HttpRequest.php";
 
 session_start();
@@ -34,8 +35,8 @@ $router = [
     "categories" => new CategoryController(),
     "clients" => new ClientController(),
     "options" => new OptionController(),
-    "commandes" => new CommandeController()
-
+    "commandes" => new CommandeController(),
+    "admin" => new AdminController()
 ];
 
 // objet HttpRequest qui contient toutes les infos utiles sur la requêtes (voir class/HttpRequest.php)

@@ -36,6 +36,21 @@ let ProductPageView = {
 
         // et on envoie tout ça dans la target choisie
         document.querySelector(target).innerHTML += html;
+
+        // gestion du stock
+        let stock = document.querySelector("#product-stock").dataset.stock;
+        if (stock == 0) {
+            document.querySelector("#product-buy").classList.add("hidden");
+            document.querySelector("#product-buy-off").classList.remove("hidden");
+            document.querySelector("#product-alert").classList.remove("hidden");
+            document.querySelector("#product-outofstock").classList.remove("hidden");
+        }
+        else if (stock < 5) {
+            document.querySelector("#product-fewleft").classList.remove("hidden");
+        }
+        else {
+            document.querySelector("#product-instock").classList.remove("hidden");
+        }
     },
 
 }

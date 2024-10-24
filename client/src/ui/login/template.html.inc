@@ -10,8 +10,8 @@
     <div id="login" class="flex flex-col gap-5">
         <p>Connectez-vous à votre compte Micromania</p>
         <form method="post" class="flex flex-col gap-5">
-            <input type="email" autocomplete="email" name="email" id="login-email" placeholder="example@micromania.fr" class="p-2 border rounded">
-            <input type="password" autocomplete="current-password" name="password" id="login-password" placeholder="Mot de passe" class="p-2 border rounded">
+            <input type="email" required autocomplete="email" name="email" id="login-email" placeholder="example@micromania.fr" class="p-2 border rounded">
+            <input type="password" required autocomplete="current-password" name="password" id="login-password" placeholder="Mot de passe" class="p-2 border rounded">
         </form>
         <p id="login-message" class="text-generic-grey"></p>
         <div id="login-submit" class="flex items-center justify-center text-lg md:text-base w-full py-7 px-12 bg-micromania-blue hover:cursor-pointer hover:bg-micromania-darkblue text-white text-center text-nowrap whitespace-nowrap rounded-md">
@@ -22,10 +22,10 @@
     <div id="signup" class="flex flex-col gap-5 hidden">
         <p>Créez un compte Micromania</p>
         <form method="post" class="flex flex-col gap-5">
-            <input type="text" autocomplete="username" name="name" id="signup-name" placeholder="Pseudo_87" class="p-2 border rounded">
-            <input type="email" autocomplete="email" name="email" id="signup-email" placeholder="example@micromania.fr" class="p-2 border rounded">
-            <input type="password" autocomplete="new-password" name="password" id="signup-password" placeholder="Mot de passe" class="p-2 border rounded">
-            <input type="password" autocomplete="off" name="password-confirm" id="signup-password-confirm" placeholder="Confirmer le mot de passe" class="p-2 border rounded">
+            <input type="text" required autocomplete="username" name="name" id="signup-name" placeholder="Pseudo_87" class="p-2 border rounded">
+            <input type="email" required autocomplete="email" name="email" id="signup-email" placeholder="example@micromania.fr" class="p-2 border rounded">
+            <input type="password" required autocomplete="new-password" name="password" id="signup-password" placeholder="Mot de passe" class="p-2 border rounded">
+            <input type="password" required autocomplete="off" name="password-confirm" id="signup-password-confirm" placeholder="Confirmer le mot de passe" class="p-2 border rounded">
         </form>
         <p id="signup-message" class="text-generic-grey"></p>
         <div id="signup-submit" class="flex items-center justify-center text-lg md:text-base w-full py-7 px-12 bg-micromania-blue hover:cursor-pointer hover:bg-micromania-darkblue text-white text-center text-nowrap whitespace-nowrap rounded-md">

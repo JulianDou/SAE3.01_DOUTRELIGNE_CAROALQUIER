@@ -644,10 +644,6 @@ video {
   height: 1.5rem;
 }
 
-.h-\[1px\]{
-  height: 1px;
-}
-
 .h-fit{
   height: -moz-fit-content;
   height: fit-content;
@@ -819,16 +815,12 @@ video {
   gap: 0.25rem;
 }
 
-.gap-12{
-  gap: 3rem;
+.gap-10{
+  gap: 2.5rem;
 }
 
 .gap-2{
   gap: 0.5rem;
-}
-
-.gap-20{
-  gap: 5rem;
 }
 
 .gap-3{
@@ -849,10 +841,6 @@ video {
 
 .gap-7{
   gap: 1.75rem;
-}
-
-.gap-10{
-  gap: 2.5rem;
 }
 
 .self-stretch{
@@ -926,11 +914,6 @@ video {
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 
-.bg-generic-grey{
-  --tw-bg-opacity: 1;
-  background-color: rgb(104 104 104 / var(--tw-bg-opacity));
-}
-
 .bg-micromania-blue{
   --tw-bg-opacity: 1;
   background-color: rgb(22 64 148 / var(--tw-bg-opacity));
@@ -1000,11 +983,6 @@ video {
 .px-2{
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-}
-
-.px-20{
-  padding-left: 5rem;
-  padding-right: 5rem;
 }
 
 .px-5{
@@ -1146,8 +1124,16 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.underline{
+  text-decoration-line: underline;
+}
+
 .opacity-30{
   opacity: 0.3;
+}
+
+.opacity-50{
+  opacity: 0.5;
 }
 
 .shadow-xl{
@@ -1288,12 +1274,12 @@ video {
     flex-wrap: wrap;
   }
 
-  .md\:gap-20{
-    gap: 5rem;
-  }
-
   .md\:gap-12{
     gap: 3rem;
+  }
+
+  .md\:gap-20{
+    gap: 5rem;
   }
 
   .md\:overflow-hidden{
@@ -1303,6 +1289,11 @@ video {
   .md\:px-10{
     padding-left: 2.5rem;
     padding-right: 2.5rem;
+  }
+
+  .md\:px-20{
+    padding-left: 5rem;
+    padding-right: 5rem;
   }
 
   .md\:px-4{
@@ -1330,11 +1321,6 @@ video {
     padding-bottom: 3.5rem;
   }
 
-  .md\:px-20{
-    padding-left: 5rem;
-    padding-right: 5rem;
-  }
-
   .md\:text-start{
     text-align: start;
   }
@@ -1349,6 +1335,11 @@ video {
     line-height: 1.5rem;
   }
 
+  .md\:text-lg{
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
   .md\:text-sm{
     font-size: 0.875rem;
     line-height: 1.25rem;
@@ -1356,11 +1347,6 @@ video {
 
   .md\:text-xl{
     font-size: 1.25rem;
-    line-height: 1.75rem;
-  }
-
-  .md\:text-lg{
-    font-size: 1.125rem;
     line-height: 1.75rem;
   }
 }
