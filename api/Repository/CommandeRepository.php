@@ -173,6 +173,7 @@ class CommandeRepository extends EntityRepository {
         $this->cnx->beginTransaction();
         
         try {
+            // On enregistre la commande avec le statut "en_cours" et la date et l'heure actuelles
             $requete = $this->cnx->prepare("insert into Commandes (statut, date_commande, id_clients) values (:statut, :date_commande, :id_clients)");
             $statut = "en_cours";
             $dateCommande = date('Y-m-d H:i:s');
@@ -186,6 +187,7 @@ class CommandeRepository extends EntityRepository {
             $produits = $commande->getProduits();
             $idCommandes = $this->cnx->lastInsertId();
 
+            // On ajoute chaque produits à la commande un à un
             foreach ($produits as $produit) {
             $requeteProduit = $this->cnx->prepare("insert into Commandes_Produits (id_produits, id_commandes, quantite, prix, id_options) values (:id_produits, :id_commandes, :quantite, :prix, :id_options)");
             $requeteProduit->bindParam(':id_produits', $produit['id_produits']);
@@ -194,7 +196,17 @@ class CommandeRepository extends EntityRepository {
             $requeteProduit->bindParam(':prix', $produit['price']);
             $requeteProduit->bindParam(':id_options', $produit['id_options']);
             $requeteProduit->execute();
+
+            // On met à jour le stock du produit
+            $requeteUpdateStock = $this->cnx->prepare("UPDATE Produits_Options SET stock = stock - :quantite WHERE id_produits = :id_produits AND id_options = :id_options");
+            $requeteUpdateStock->bindParam(':quantite', $produit['quantity']);
+            $requeteUpdateStock->bindParam(':id_produits', $produit['id_produits']);
+            $requeteUpdateStock->bindParam(':id_options', $produit['id_options']);
+            $requeteUpdateStock->execute();
             }
+            
+
+            // On commit la transaction
 
             $this->cnx->commit();
             return true;
