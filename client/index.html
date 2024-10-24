@@ -7,23 +7,19 @@
     <link rel="stylesheet" href="./dist/output.css">
     <!-- This document uses TailwindCSS -->
 </head>
-<body class="pt-14 h-screen bg-offwhite font-inter">
-
-    <div id="dark-overlay" class="fixed top-0 left-0 h-screen w-screen opacity-30 bg-black hidden"></div>
-
-    <div id="side-panel" class="flex fixed right-0 top-0 transition-all translate-x-full h-full pt-14"></div>
-
-    <nav class="fixed top-0 w-full" id="navbar">
-        <!-- Nav -->
-    </nav>
+<body class="py-14 flex flex-col min-h-screen min-w-screen h-full bg-offwhite font-inter">
 
     <section id="main">
         <!-- Contenu chargé par JS -->
     </section>
 
-    <div id="testing">
+    <div id="dark-overlay" class="fixed top-0 left-0 h-screen w-screen opacity-30 bg-black hidden"></div>
 
-    </div>
+    <aside id="side-panel" class="flex fixed right-0 top-0 transition-all translate-x-full h-full pt-14"></aside>
+    
+    <nav class="fixed top-0 w-full" id="navbar">
+        <!-- Nav -->
+    </nav>
 
     <script type="module" src="src/main.js"></script>
 
