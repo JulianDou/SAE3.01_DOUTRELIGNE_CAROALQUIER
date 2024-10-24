@@ -1,5 +1,5 @@
 import {getRequest} from '../lib/api-request.js';
-
+import {postRequest} from '../lib/api-request.js';
 
 let CartData = {};
 
@@ -83,13 +83,13 @@ CartData.add = async function(id, id_options, name, short_name, price, image, re
 }
 
 // CartData.remove diminue la quantité d'un produit dans le panier.
-CartData.remove = function(id_options){
-    if (CartContent.filter(item => item.id_options == id_options).length == 0){
+CartData.remove = function(id, id_options){
+    if (CartContent.filter(item => item.id == id && item.id_options == id_options).length == 0){
         return "Erreur : produit non trouvé";
     }
     else {
         CartContent = CartContent.map(item => {
-            if (item.id_options == id_options && item.quantite > 1){
+            if (item.id == id && item.id_options == id_options && item.quantite > 1){
                 item.quantite --;
             }
             return item;
@@ -118,6 +118,41 @@ CartData.total = function(){
 // CartData.count renvoie le nombre total de produits (individuels) dans le panier.
 CartData.count = function(){
     return CartContent.length;
+}
+
+
+// CartData.submit envoie le panier à l'API.
+// On part du principe que l'utilisateur est connecté.
+// Attention, CartData.submit vide le panier.
+CartData.submit = async function(){    
+    if (CartContent.length > 0) {
+        let data = new FormData();
+        let items = CartContent.map(item => ({
+            id_produits: item.id,
+            id_options: item.id_options,
+            quantity: item.quantite,
+            price: item.price
+        }));
+        data.append('items', JSON.stringify(items));
+
+        let success = false;
+        let response = await postRequest('commandes', data);
+        if (response){
+            CartData.clear();
+            success = true;
+        }
+        return success;
+    } else {
+        return false;
+    }
+}
+
+CartData.getOrder = async function(){
+    let data = getRequest("commandes/me");
+    if (!data) {
+        return [];
+    }
+    return data;
 }
 
 

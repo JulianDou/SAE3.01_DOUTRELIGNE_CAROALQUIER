@@ -14,14 +14,19 @@ class Commande implements JsonSerializable {
     private string $date_commande; // date de la commande
     private string $statut; // statut de la commande
     private array $produits; // liste des produits
+    private string $client_nom; // nom du client
+    private string $client_email; // email du client
 
 
     
-
-    public function __construct(int $id_commandes){
+    public function __construct(int $id_commandes = 0, int $id_clients = 0, string $date_commande = '', string $statut = '', string $client_nom = '', string $client_email = '', array $produits = []){
         $this->id_commandes = $id_commandes;
-
-        
+        $this->id_clients = $id_clients;
+        $this->date_commande = $date_commande;
+        $this->statut = $statut;
+        $this->client_nom = $client_nom;
+        $this->client_email = $client_email;
+        $this->produits = $produits;
     }
 
      /**
@@ -50,9 +55,11 @@ class Commande implements JsonSerializable {
         return [
             "id_commandes" => $this->id_commandes,
             "id_clients" => $this->id_clients,
-            "date_commande" => $this->date_commande,
-            "statut" => $this->statut,
-            "produits" => $this->produits
+            "client_name" => $this->client_nom,
+            "client_email" => $this->client_email,
+            "order_date" => $this->date_commande,
+            "status" => $this->statut,
+            "products" => $this->produits
         ];
     }
 
@@ -78,7 +85,7 @@ class Commande implements JsonSerializable {
     /**
      * Get the value of id_clients
      */ 
-    public function getIdClients(): int
+    public function getIdClient(): int
     {
         return $this->id_clients;
     }
@@ -88,7 +95,7 @@ class Commande implements JsonSerializable {
      *
      * @return  self
      */ 
-    public function setIdClients(int $id_clients): self
+    public function setIdClient(int $id_clients): self
     {
         $this->id_clients = $id_clients;
         return $this;
@@ -151,4 +158,63 @@ class Commande implements JsonSerializable {
         $this->produits = $produits;
         return $this;
     }
+
+    /**
+     * Get the value of client_nom
+     */ 
+    public function getClientName(): string
+    {
+        return $this->client_nom;
+    }
+
+    /**
+     * Set the value of client_nom
+     *
+     * @return  self
+     */ 
+    public function setClientName(string $client_nom): self
+    {
+        $this->client_nom = $client_nom;
+        return $this;
+    }
+
+    /**
+     * Get the value of client_email
+     */ 
+    public function getClientEmail(): string
+    {
+        return $this->client_email;
+    }
+
+    /**
+     * Set the value of client_email
+     *
+     * @return  self
+     */ 
+    public function setClientEmail(string $client_email): self
+    {
+        $this->client_email = $client_email;
+        return $this;
+    }
+
+    /**
+     * Add a product to the order
+     *
+     * @param int $id_produits
+     * @param int $quantity
+     * @param float $price
+     * @param int $id_options
+     * @return self
+     */
+    public function addProduct(int $id_produits, int $quantity, float $price, int $id_options): self
+    {
+        $this->produits[] = [
+            'id_produits' => $id_produits,
+            'quantity' => $quantity,
+            'price' => $price,
+            'id_options' => $id_options
+        ];
+        return $this;
+    }
+
 }
