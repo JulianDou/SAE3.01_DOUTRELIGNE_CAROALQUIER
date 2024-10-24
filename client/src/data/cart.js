@@ -5,25 +5,6 @@ let CartData = {};
 
 let CartContent = [];
 
-/*
-format CartContent :
-
-[
-    {
-        "id": 1,
-        "id_options": 7
-        "name": "Produit 1",
-        "short_name": "Bleu",
-        "price": 9.99,
-        "image": "produit1.jpg",
-        "retailer": "Amazon",
-        "quantite": 1
-    },
-    etc...
-]
-
-*/
-
 // CartData.clear vide le panier (et le renvoie vidé).
 CartData.clear = function(){
     CartContent = [];
@@ -33,11 +14,11 @@ CartData.clear = function(){
 // CartData.read peut prendre en paramètre un produit spécifique.
 // Il renvoie alors ce produit spécifique.
 // Sinon il renvoie tout le panier.
-CartData.read = function(id_options){
+CartData.read = function(id_produits, id_options){
     let data = CartContent;
 
-    if (id_options != undefined){
-        data = CartContent.filter(item => item.id_options == id_options);
+    if (id_produits != undefined && id_options != undefined) {
+        data = CartContent.filter(item => item.id == id_produits && item.id_options == id_options);
     }
 
     if (data.length == 0){
@@ -51,32 +32,23 @@ CartData.read = function(id_options){
 // CartData.add ajoute un produit au panier, OU augmente sa quantité
 // si celui ci était déjà présent.
 // Il renvoie le panier après ajout.
-// On utilise l'id de l'option plutôt que l'id du produit en général.
-CartData.add = async function(id, id_options, name, short_name, price, image, retailer, quantite){
+CartData.add = async function(id, id_options, data){
     let product = {
-        "id": id,
-        "id_options": id_options,
-        "name": name,
-        "short_name": short_name,
-        "price": price,
-        "image": image,
-        "retailer": retailer,
-        "quantite": quantite
-    };
+        id: id,
+        id_options: id_options,
+    }
+
+    // On ne fournit data qu'en cas d'ajout au panier.
+    if (data){
+        product = data;
+        product.quantite = 1;
+    }
 
     let existingProduct = CartContent.find(item => item.id == product.id && item.id_options == product.id_options);
     
     if (existingProduct != undefined) {
         existingProduct.quantite ++;
     } else {
-
-        for (let key in product) {
-            if (product[key] === undefined) {
-                console.log("Erreur : produit invalide");
-                return "Erreur : produit invalide";
-            }
-        }
-
         CartContent.push(product);
     }
     return CartContent;
