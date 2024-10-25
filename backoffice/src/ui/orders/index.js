@@ -23,13 +23,7 @@ let OrdersView = {
             
             // puis on met le html concaténé dans le template
             html = html.replace("{{product_list}}", products);
-
-            // on rend les options du status dans le template en présélectionnant la valeur actuelle
-            let status = OrdersStatusView.render(order.id_commandes, order.status);
-
-            // puis on met le html concaténé dans le template
-            html = html.replace("{{select_status}}", status);
-
+            
             // et on envoie tout ça dans la target, en fonction du statut de la commande
             switch (order.status) {
                 case "en_cours":
