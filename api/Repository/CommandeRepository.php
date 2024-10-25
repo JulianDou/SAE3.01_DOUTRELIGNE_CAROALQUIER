@@ -210,7 +210,11 @@ class CommandeRepository extends EntityRepository
 
     public function save($commande)
     {
-        $this->cnx->beginTransaction();
+        // On commence une transaction si ce n'est pas déjà fait
+        if (!$this->cnx->inTransaction()) {
+            $this->cnx->beginTransaction();
+        }
+
 
         try {
             // On enregistre la commande avec le statut "en_cours" et la date et l'heure actuelles
@@ -249,9 +253,13 @@ class CommandeRepository extends EntityRepository
             // On commit la transaction
 
             $this->cnx->commit();
-            return true;
+
+            
+            return $idCommandes;
         } catch (Exception $e) {
-            $this->cnx->rollBack();
+            if ($this->cnx->inTransaction()) {
+                $this->cnx->rollBack();
+            }
             echo $e->getMessage();
             return false;
         }
@@ -287,7 +295,6 @@ class CommandeRepository extends EntityRepository
                 $requeteUpdateStock->bindParam(':id_produits', $produit['id_produits']);
                 $requeteUpdateStock->bindParam(':id_options', $produit['id_options']);
                 $requeteUpdateStock->execute();
-
             }
         } else if ($previousStatus == "annulee") {
             // Si le statut passe de "annulee" à un autre statut, on retire à nouveau les produits du stock
@@ -298,12 +305,107 @@ class CommandeRepository extends EntityRepository
                 $requeteUpdateStock->bindParam(':id_produits', $produit['id_produits']);
                 $requeteUpdateStock->bindParam(':id_options', $produit['id_options']);
                 $requeteUpdateStock->execute();
-
             }
         }
 
         $answer = $requete->execute(); // an update query returns true or false. $answer is a boolean.
 
         return $answer;
+    }
+
+    // Mettre à jour le stock d'un produit
+    public function updateStock($id_produits, $id_options, $quantity)
+    {
+        $requete = $this->cnx->prepare("UPDATE Produits_Options SET stock = stock - :quantity WHERE id_produits = :id_produits AND id_options = :id_options");
+        $requete->bindParam(':quantity', $quantity);
+        $requete->bindParam(':id_produits', $id_produits);
+        $requete->bindParam(':id_options', $id_options);
+        $answer = $requete->execute(); // an update query returns true or false. $answer is a boolean.
+
+        return $answer;
+    }
+
+    // Mettre à jour les quantités d'un produit dans une commande et le statut de la commande
+    public function updateProduct($idProduits, $idOptions, $quantity) {
+        $requete = $this->cnx->prepare("UPDATE Commandes_Produits SET quantite = :quantite WHERE id_produits = :id_produits AND id_options = :id_options");
+        $requete->bindParam(':quantite', $quantity);
+        $requete->bindParam(':id_produits', $idProduits);
+        $requete->bindParam(':id_options', $idOptions);
+        $answer = $requete->execute(); // an update query returns true or false. $answer is a boolean.
+
+        return $answer;
+    }
+
+    // Dupliquer une commande
+    public function duplicate($commande)
+    {
+        // On récupère les produits de la commande cible
+        $produits = $commande->getProduits();
+
+        // On vérifie les stocks pour chaque produit
+        foreach ($produits as $produit) {
+            $requeteStock = $this->cnx->prepare("SELECT stock FROM Produits_Options WHERE id_produits = :id_produits AND id_options = :id_options");
+            $requeteStock->bindParam(':id_produits', $produit['id_produits']);
+            $requeteStock->bindParam(':id_options', $produit['id_options']);
+            $requeteStock->execute();
+            $stock = $requeteStock->fetch(PDO::FETCH_OBJ)->stock;
+
+            if ($stock < $produit['quantity']) {
+                throw new Exception("Stock insuffisant pour le produit " . $produit['id_produits']);
+            }
+        }
+
+        // On commence une transaction si ce n'est pas déjà fait
+        if (!$this->cnx->inTransaction()) {
+            $this->cnx->beginTransaction();
+        }
+
+        try {
+            // On crée une nouvelle commande pour l'utilisateur actuel
+            $newCommande = new Commande(0); // 0 est une valeur symbolique temporaire
+
+            // On vérifie que l'utilisateur est connecté
+            if (!isset($_SESSION['client'])) {
+                // $newCommande->setIdClient(14); // pour les tests
+                throw new Exception("Client non connecté");
+
+            }
+            $newCommande->setIdClient($_SESSION['client']->getId());
+            $newCommande->setStatut("en_cours");
+            $newCommande->setDateCommande(date('Y-m-d H:i:s'));
+
+            // On enregistre la nouvelle commande
+            $idNewCommande = $this->save($newCommande);
+
+
+            // On ajoute les produits à la nouvelle commande
+            foreach ($produits as $produit) {
+                
+                $requeteProduit = $this->cnx->prepare("INSERT INTO Commandes_Produits (id_produits, id_commandes, quantite, prix, id_options) VALUES (:id_produits, :id_commandes, :quantite, :prix, :id_options)");
+                $requeteProduit->bindParam(':id_produits', $produit['id_produits']);
+                $requeteProduit->bindParam(':id_commandes', $idNewCommande);
+                $requeteProduit->bindParam(':quantite', $produit['quantity']);
+                $requeteProduit->bindParam(':prix', $produit['price']);
+                $requeteProduit->bindParam(':id_options', $produit['id_options']);
+                $requeteProduit->execute();
+
+                // On met à jour le stock du produit
+                $requeteUpdateStock = $this->cnx->prepare("UPDATE Produits_Options SET stock = stock - :quantite WHERE id_produits = :id_produits AND id_options = :id_options");
+                $requeteUpdateStock->bindParam(':quantite', $produit['quantity']);
+                $requeteUpdateStock->bindParam(':id_produits', $produit['id_produits']);
+                $requeteUpdateStock->bindParam(':id_options', $produit['id_options']);
+                $requeteUpdateStock->execute();
+            }
+
+
+            // On retourne la nouvelle commande
+            return $this->find($idNewCommande);
+        } catch (Exception $e) {
+            // On rollback la transaction en cas d'erreur si elle a été commencée
+            if ($this->cnx->inTransaction()) {
+                $this->cnx->rollBack();
+            }
+            throw $e;
+        }
     }
 }

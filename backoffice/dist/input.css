@@ -1,0 +1,12 @@
+/* Import pour la font Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Fix Tailwind class not working */
+.translate-y-full{
+    transform: translateY(100%);
+}
