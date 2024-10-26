@@ -15,8 +15,11 @@
         <p class="text-micromania-blue font-semibold">
           Email: <span class="text-black">{{client_email}}</span>
         </p>
+        <p class="text-micromania-blue font-semibold">
+          Statut: <span class="text-black">{{status}}</span>
+        </p>
       </div>
-      {{select_status}}
+      
       <div id="edit-order" data-orderid={{id_commandes}} class="my-2 text-white text-center w-full py-2 bg-micromania-blue rounded hover:cursor-pointer hover:bg-micromania-darkblue">Modifier cette commande</div>
       <ul class="products__list">
         {{product_list}}

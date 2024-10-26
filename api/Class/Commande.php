@@ -51,7 +51,7 @@ class Commande implements JsonSerializable {
      *  Voir aussi : https://www.php.net/manual/en/class.jsonserializable.php
      *  
      */
-    public function JsonSerialize(): mixed {
+    public function JsonSerialize() {
         return [
             "id_commandes" => $this->id_commandes,
             "id_clients" => $this->id_clients,

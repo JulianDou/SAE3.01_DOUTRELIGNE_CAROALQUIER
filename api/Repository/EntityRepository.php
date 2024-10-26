@@ -21,7 +21,12 @@ abstract class EntityRepository {
 
     protected function __construct(){
         // Modifiez ici vos informations de BDD et de connexion
-        $this->cnx = new PDO("mysql:host=mmi.unilim.fr;dbname=caroalquier1", "caroalquier1", "caroalquier1");
+        try {
+            $this->cnx = new PDO("mysql:host=localhost;dbname=SAE301", "root", "8740");
+            $this->cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            die("Connection failed: " . $e->getMessage());
+        }
     }
 
     /**

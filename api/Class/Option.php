@@ -52,7 +52,7 @@ class Option implements JsonSerializable {
 
 
 
-public function JsonSerialize(): mixed {
+public function JsonSerialize(){
     $json = [
         "id" => $this->id_produits,
         "id_options" => $this->id_options ?? null,

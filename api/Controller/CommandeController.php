@@ -47,7 +47,6 @@ class CommandeController extends Controller
     protected function processPostRequest(HttpRequest $request)
     {
         $id = $request->getId("id");
-        // 🔕🔕🔕🔕🔕🔕🔕🔕
         // Si on a comme id stock, on fait un update du stock
         if ($id == "stock") {
             // On récupère les données JSON de la requête
@@ -85,24 +84,30 @@ class CommandeController extends Controller
         // SI on a comme id "update", on met à jour une commande
         if ($id == "update") {
             // On récupère les données JSON de la requête
-            $data = json_decode(file_get_contents('php://input'), true);
-            $idCommande = $data['id_commandes'];
-            $statut = $data['status'];
-            $products = $data['products'];
+            $idCommande = $_POST['id_commandes'];
+            $statut = $_POST['status'];
+            $products = json_decode($_POST['products'], true);
 
             $commande = $this->products->find($idCommande);
             // Si la commande existe on la met à jour
             if ($commande) {
-                $commande->setStatut($statut);
-                foreach ($products as $product) {
-                    $idProduits = $product['id_produits'];
-                    $idOptions = $product['id_options'];
-                    $quantity = $product['quantity'];
-                    $ok = $this->products->updateProduct($idProduits, $idOptions, $quantity);
-                }
-                return $ok ? $commande : false;
-            } else {
+            $commande->setStatut($statut);
+            $ok = $this->products->update($commande); // Update the status first
+            if (!$ok) {
                 return false;
+            }
+            foreach ($products as $product) {
+                $idProduits = $product['id_produits'];
+                $idOptions = $product['id_options'];
+                $quantity = $product['quantity'];
+                $ok = $this->products->updateProduct($idProduits, $idOptions, $quantity);
+                if (!$ok) {
+                return false;
+                }
+            }
+            return $commande;
+            } else {
+            return false;
             }
         }
 

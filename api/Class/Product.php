@@ -73,7 +73,7 @@ class Product implements JsonSerializable {
 //     ]
 // }
 
-public function JsonSerialize(): mixed {
+public function JsonSerialize(){
     $json = [
         "id" => $this->id_produits,
         "name" => $this->nom ?? null,

@@ -43,7 +43,7 @@ class Category implements JsonSerializable {
      *  Voir aussi : https://www.php.net/manual/en/class.jsonserializable.php
      *  
      */
-    public function JsonSerialize(): mixed {
+    public function JsonSerialize(){
         return [
             "id" => $this->id_categories,
             "name" => $this->nom_categories,

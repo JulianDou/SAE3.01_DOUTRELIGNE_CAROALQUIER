@@ -4,7 +4,7 @@
  */
 
 
-let API_URL = "https://mmi.unilim.fr/~caroalquier1/SAE301/api/";
+let API_URL = "https://caro-alquier-sae301.mmi-limoges.fr/api/";
 
 
 /**
