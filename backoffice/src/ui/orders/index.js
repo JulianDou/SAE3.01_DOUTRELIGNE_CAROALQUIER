@@ -23,7 +23,8 @@ let OrdersView = {
             
             // puis on met le html concaténé dans le template
             html = html.replace("{{product_list}}", products);
-            
+
+
             // et on envoie tout ça dans la target, en fonction du statut de la commande
             switch (order.status) {
                 case "en_cours":

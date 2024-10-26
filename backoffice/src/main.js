@@ -17,8 +17,10 @@ V.init = async function(){
 
     // Ajout d'un event listener pour les selects
     let ordersList = document.querySelector("#current-orders");
+    ordersList.addEventListener("change", C.handler_updateSelectedStatus);
     ordersList.addEventListener("click", C.handler_editOrder);
     let oldOrdersList = document.querySelector("#old-orders");
+    oldOrdersList.addEventListener("change", C.handler_updateSelectedStatus);
     oldOrdersList.addEventListener("click", C.handler_editOrder);
 
     // Ajout de l'event listener pour l'édition des commandes
@@ -44,6 +46,49 @@ C.handler_editOrder = async function(ev){
                 EditOrdersView.render(data);
                 break;
         }
+    }
+}
+
+C.handler_updateSelectedStatus = async function(ev){
+    // On récupère les données de l'élément cliqué
+    let id_commandes = ev.target.dataset.id_commandes;
+
+    // On récupère la valeur de l'option choisie
+    let status = ev.target.value;
+    let data = {
+        id_commandes: id_commandes,
+        status: status
+    };
+
+    await OrderData.updateStatus(data);
+
+    // on déplace l'élément cliqué
+    let li = ev.target.closest("li");
+    let li_copy = li.cloneNode(true);
+    let current_orders = document.querySelector("#current-orders");
+    let old_orders = document.querySelector("#old-orders");
+
+    switch (status) {
+        case "en_cours":
+            li.remove();
+            li_copy.querySelector(`option[value="${status}"]`).selected = true;
+            current_orders.insertBefore(li_copy, Element.firstChild);
+            break;
+        case "disponible":
+            li.remove();
+            li_copy.querySelector(`option[value="${status}"]`).selected = true;
+            current_orders.insertBefore(li_copy, Element.firstChild);
+            break;
+        case "annulee":
+            li.remove();
+            li_copy.querySelector(`option[value="${status}"]`).selected = true;
+            old_orders.insertBefore(li_copy, Element.firstChild);
+            break;
+        case "retiree":
+            li.remove();
+            li_copy.querySelector(`option[value="${status}"]`).selected = true;
+            old_orders.insertBefore(li_copy, Element.firstChild);
+            break;
     }
 }
 

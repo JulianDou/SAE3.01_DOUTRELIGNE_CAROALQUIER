@@ -31,7 +31,7 @@ class Client implements JsonSerializable {
         $this->mot_de_passe = $mot_de_passe;
     }
 
-    public function JsonSerialize(): mixed {
+    public function JsonSerialize() {
         $json = [
             "id" => $this->id_clients,
             "name" => $this->nom,
